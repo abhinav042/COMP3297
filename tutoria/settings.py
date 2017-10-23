@@ -74,14 +74,20 @@ WSGI_APPLICATION = 'tutoria.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
+# remove default database, add mongodb
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': '',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
+SESSION_ENGINE = 'mongoengine.django.sessions'
+_MONGODB_USER = 'group13'
+_MONGODB_PASSWD = 'group13'
+
+import mongoengine
+mongoengine.connect('mongodb://' + _MONGODB_USER + ':' + _MONGODB_PASSWD + '@ds229465.mlab.com:29465/software-engg')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -114,7 +120,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

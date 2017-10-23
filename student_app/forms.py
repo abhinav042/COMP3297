@@ -2,14 +2,14 @@ from django import forms
 from django.contrib.auth.models import User
 from student_app.models import Student
 
-class StudentForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta():
         model = User
-        fields = ('username','email','password')
+        fields = ('first_name','last_name','username','email','password')
 
-class Student(forms.ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta():
         model = Student
-        fields = ('profile_pic')
+        fields = ('profile_pic',)

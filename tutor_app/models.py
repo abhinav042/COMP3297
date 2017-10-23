@@ -8,7 +8,7 @@ class CourseId(EmbeddedDocument):
     course_id = StringField()
     course_time = ListField(DateTimeField())
     
-class Student(Document):
+class Tutor(Document):
     full_name  = StringField(max_length=30)
     username = StringField(max_length=30, unique=True)
     email = EmailField(max_length=30, unique=True)

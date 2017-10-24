@@ -2,10 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-user = models.OneToOneField(User)
+class Tutor(models.Model):
 
-wallet = models.FloatField(default=0)
-profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
+    user = models.OneToOneField(User,null=True)
+    wallet = models.FloatField(null=True)
+    profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
+    bio = models.TextField(null=True)
+    contracted = models.BooleanField(default=True)
+    salary = models.FloatField(default=0)
 
-def __str__(self):
-    return self.user.username
+    def __str__(self):
+        return self.user.username

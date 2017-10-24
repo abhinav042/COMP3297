@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'student_app',
     'tutor_app',
     'review_app',
+    'course_app',
+    'session_app',
 ]
 
 MIDDLEWARE_CLASSES = [

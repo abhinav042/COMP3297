@@ -2,5 +2,21 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from student_app.models import Student
+from tutor_app.models import Tutor
+from course_app.models import Course
+
 
 # Create your models here.
+class Session(models.Model):
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    session_time = models.DateTimeField(null=True)
+    # 0=unavailable 1=available
+    status = models.IntegerField(default=0)
+    
+
+    def __str__(self):
+        return self.id

@@ -27,7 +27,7 @@ SECRET_KEY = '1d6x_yr$mmfe%^33jz29a@ji^qqwnw)654ku*n@l+m_n@*bb$v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'tutoria-abhinav042.c9users.io']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 

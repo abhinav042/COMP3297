@@ -9,14 +9,12 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request,'student_app/index.html')
 
-@login_required
-def special(request):
-    return HttpResponse('You are logged in')
+
 
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return render(request,'student_app/index.html')
 
 def register(request):
     registered =False
@@ -67,7 +65,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+                return render(request,'student_app/index.html')
 
             else:
                 return HttpResponse('Account Not Active')

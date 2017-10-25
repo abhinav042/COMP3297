@@ -1,0 +1,50 @@
+{% extends "tutor_app/base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+<style type="text/css">
+  form label{
+	display: inline-block;
+	width:180px;
+}
+</style>
+  <div class="container">
+    <div class="jumbotron">
+      {% if registered %}
+        <h1>Thank you for registering!</h1>
+      {% else %}
+        <h1>Register as a Tutor</h1>
+        <h3>Just fill out the form.</h3>
+
+        <form enctype="multipart/form-data" method="POST">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ tutor_form.as_p }}
+          <input type="submit" name="" value="Register">
+        </form>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+          var label = $("label[for='"+$('#id_salary').attr('id')+"']");
+          console.log($("input[type='checkbox']").val());
+
+    $('#id_contracted').click(function() {
+    if( $('#id_contracted').is(':checked')) {
+        $("#id_salary").hide();
+        label.hide();
+    } else {
+        $("#id_salary").show();
+        label.show();
+    }
+}); 
+
+});
+  </script>
+
+{% endblock %}

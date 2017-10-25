@@ -17,12 +17,12 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from student_app import views
+from start_app import views
 
 urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^student_app/',include('student_app.urls')),
-    url(r'^logout/$',views.user_logout,name='logout'),
-    url(r'special/$',views.special ,name='special'),
+    url(r'^tutor_app/',include('tutor_app.urls')),
+    
 ]

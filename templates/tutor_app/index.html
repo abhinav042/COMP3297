@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tutor_Dashboard</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "tutor_app/base.html" %}
+{% block body_block %}
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Tutor Portal</h1>
+    {% if user.is_authenticated %}
+        <h2>Welcome {{ user.username }}!</h2>
+    {% else %}
+        <h2>Please login/register to start using Tutoria</h2>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

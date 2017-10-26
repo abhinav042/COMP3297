@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'review_app',
     'course_app',
     'session_app',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE_CLASSES = [

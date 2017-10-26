@@ -13,6 +13,10 @@ In case you want to run your Django application from the terminal just run:
 
     $ python manage.py runserver $IP:$PORT
     
+3) Install django-filter 
+    
+    $ sudo pip install django-filter
+    
 ## Configuration
 
 You can configure your Python version and `PYTHONPATH` used in

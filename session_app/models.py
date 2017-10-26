@@ -5,6 +5,10 @@ from django.db import models
 from student_app.models import Student
 from tutor_app.models import Tutor
 from course_app.models import Course
+from django.views.generic.detail import DetailView
+from django.utils import timezone
+
+
 
 
 # Create your models here.
@@ -19,4 +23,14 @@ class Session(models.Model):
     
 
     def __str__(self):
-        return self.id
+        return str(self.id)
+        
+# class SessionDetailView(DetailView):
+
+#     model = Session
+
+#     def get_context_data(self, **kwargs):
+#         context = super(SessionDetailView, self).get_context_data(**kwargs)
+#         context['now'] = timezone.now()
+#         return context
+

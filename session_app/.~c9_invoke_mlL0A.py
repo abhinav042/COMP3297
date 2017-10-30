@@ -22,24 +22,30 @@ from django.contrib.auth.models import User
 def sessions(request):
     session_list = Session.objects.all()
     session_filter = SessionFilter(request.GET, queryset=session_list)
-    # user_id= request.user
-    # print(user_id)
-    # student=Student.objects.get(user=user_id)
-    # print(student.id)
-    return render(request, 'sessions.html', {'filter': session_filter})
+    user = request.user.id
+    p
+    return render(request, 'sessions.html', {'filter': session_filter,'user_id': user})
     
     
 def book_session(request):
     session=Session.objects.get(id=request.GET.get('sess'))
-    user_id= request.user
-    student=Student.objects.get(user=user_id)
+    student=Student.objects.get(id=request.GET.get('stud'))
     session.student=student
     session.status=1
     session.save()
     
-def cancel_session(request):
-    session=Session.objects.get(id=request.GET.get('sess'))
-    student=Student.objects.get(user=1)
-    session.student=student
-    session.status=0
-    session.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

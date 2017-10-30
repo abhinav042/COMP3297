@@ -6,6 +6,15 @@
     <h1>Welcome to Student Portal</h1>
     {% if user.is_authenticated %}
         <h2>Welcome {{ user.username }}!</h2>
+        <!--<div>-->
+        <!--  {% if sessions %}-->
+        <!--    {% for session in sessions %}-->
+        <!--    <p>-->
+        <!--      {{session.course}} - {{session.tutor}}-->
+        <!--    </p>-->
+        <!--    {% endfor %}-->
+        <!--  {% endif %}-->
+        <!--</div>-->
     {% else %}
         <h2>Please login/register to start using Tutoria</h2>
     {% endif %}

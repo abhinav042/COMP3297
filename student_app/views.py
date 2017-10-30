@@ -4,9 +4,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-
+from session_app.models import Session
+from student_app.models import Student
 # Create your views here.
 def index(request):
+    user_id=request.user
+    student_id=Student.objects.get(user=user_id)
+    session=Session.objects.get(student=student_id)
+    print (session)
     return render(request,'student_app/index.html')
 
 def switch(request):

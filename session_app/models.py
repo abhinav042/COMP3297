@@ -8,13 +8,10 @@ from course_app.models import Course
 from django.views.generic.detail import DetailView
 from django.utils import timezone
 
-
-
-
 # Create your models here.
 class Session(models.Model):
 
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     session_time = models.DateTimeField(null=True)

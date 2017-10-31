@@ -39,7 +39,7 @@
     <tbody>
         {% for session in filter.qs %}
           <tr>
-            <td><p><a href="{% url 'tutor_app:switch' %}">{{ session.tutor }}</a></p><p>{{session.tutor.bio}}</p></td>
+            <td><p><a href="{% url 'tutor_app:profile' tutor_id=session.tutor.id %}">{{ session.tutor }}</a></p><p>{{session.tutor.bio}}</p></td>
             <td>{{ session.course }}</td>
             <td>{{ session.session_time }}</td>
             <td><a href="{% url 'session_app:book_session' %}?sess={{session.id}}">Book</a></td>

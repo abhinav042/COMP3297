@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from tutor_app.models import Tutor
 
 # Create your views here.
 def index(request):
@@ -11,7 +13,11 @@ def index(request):
 
 def switch(request):
     logout(request)
-    return render(request,'tutor_app/index.html')
+    return redirect('/student_app/index')
+    
+def profile(request,tutor_id):
+    tutor = Tutor.objects.get(id=tutor_id)
+    return render(request,'tutor_app/profile.html',{'tutor':tutor})
 
 
 @login_required

@@ -14,7 +14,9 @@
 
           {# Django Home Link / Admin Link / Register Link#}
           <li><a class="navbar-brand" href="{% url 'index' %}">Tutoria</a></li>
+          {% if user.is_superuser %}
           <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+          {% endif %}
           {% if user.is_anonymous %}
           <li><a class="navbar-link" href="{% url 'tutor_app:register' %}">Register</a></li>
           {% endif %}
@@ -25,7 +27,7 @@
             <li><a class="navbar-link" href="{% url 'tutor_app:user_login' %}">Login</a></li>
           {% endif %}
           
-          <li><a class="navbar-link" href="{% url 'student_app:index' %}">Switch to Student mode</a></li>
+          <li><a class="navbar-link" href="{% url 'tutor_app:switch' %}">Switch to Student mode</a></li>
 
         </ul>
       </div>

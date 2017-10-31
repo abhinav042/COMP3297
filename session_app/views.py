@@ -6,6 +6,7 @@ from .filter import SessionFilter
 from session_app.models import Session
 from student_app.models import Student
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -36,6 +37,7 @@ def book_session(request):
     session.student=student
     session.status=1
     session.save()
+    return redirect('/student_app/index')
     
 def cancel_session(request):
     session=Session.objects.get(id=request.GET.get('sess'))
@@ -43,3 +45,4 @@ def cancel_session(request):
     session.student=student
     session.status=0
     session.save()
+    return redirect('/student_app/index')

@@ -6,17 +6,36 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from session_app.models import Session
 from student_app.models import Student
+from django.shortcuts import redirect
 # Create your views here.
 def index(request):
     user_id=request.user
-    student_id=Student.objects.get(user=user_id)
-    session=Session.objects.get(student=student_id)
-    print (session)
+    # student_id=Student.objects.get(user=user_id)
+    # session=Session.objects.filter(student=student_id)
+    # print(session)
+    try:
+        student_id=Student.objects.get(user=user_id)
+        print(student_id)
+        
+    except:
+        student_id= None
+    if student_id != None:    
+        try:
+            session = Session.objects.filter(student=student_id)
+            print (session)
+            return render(request,'student_app/index.html',{'sessions':session})
+        except Session.DoesNotExist:
+            session = None
+            print(session)
+    
     return render(request,'student_app/index.html')
+    
+    
+    
 
 def switch(request):
     logout(request)
-    return render(request,'student_app/index.html')
+    return redirect('/tutor_app/index')
 
 @login_required
 def user_logout(request):
@@ -72,7 +91,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return render(request,'student_app/index.html')
+                return redirect('/student_app/index')
 
             else:
                 return HttpResponse('Account Not Active')

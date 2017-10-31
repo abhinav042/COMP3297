@@ -10,5 +10,6 @@ urlpatterns=[
     url(r'^user_login/$',views.user_login,name='user_login'),
     url(r'^logout/$',views.user_logout,name='logout'),
     url(r'^index/$',views.index,name='index'),
-    url(r'^switch/$',views.index,name='switch'),
+    url(r'^switch/$',views.switch,name='switch'),
+    url(r'^profile/(?P<tutor_id>\w+)/$', views.profile, name='profile'),
 ]

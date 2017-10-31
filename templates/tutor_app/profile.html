@@ -1,0 +1,22 @@
+{% extends "tutor_app/base.html" %}
+{% block body_block %}
+
+<div class="container">
+    <div class="jumbotron">
+        <p>{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+        <p>{{tutor.user.email}}</p>
+        <p>{{tutor.bio}}</p>
+        {% if tutor.contracted %}
+            <p>Contracted</p>
+        {% else %}
+            <p>Fees per hour: {{tutor.salary}}</p>
+        {% endif %}
+        
+    </div>
+    
+</div>
+
+
+
+
+{% endblock %}

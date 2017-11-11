@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 # Create your views here.
 def index(request):
     user_id=request.user
-    # student_id=Student.objects.get(user=user_id)
+    # student_id=Student.objects.get(user=user_id)p
     # session=Session.objects.filter(student=student_id)
     # print(session)
     try:
@@ -27,6 +27,7 @@ def index(request):
         except Session.DoesNotExist:
             session = None
             print(session)
+            
     
     return render(request,'student_app/index.html')
     

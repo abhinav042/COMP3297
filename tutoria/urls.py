@@ -18,6 +18,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from start_app import views
+from django.contrib.auth.views import password_reset,password_reset_done,password_reset_confirm
 
 urlpatterns = [
     url(r'^$',views.index,name='index'),
@@ -25,4 +26,7 @@ urlpatterns = [
     url(r'^student_app/',include('student_app.urls')),
     url(r'^tutor_app/',include('tutor_app.urls')),
     url(r'^session_app/',include('session_app.urls')),
+    url(r'^reset-password/$',password_reset,name='password_reset'),
+    url(r'^reset-password/done/$',password_reset_done,name='password_reset_done'),
+    url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',password_reset_confirm,name='password_reset_confirm'),
 ]

@@ -9,6 +9,4 @@ class SessionFilter(django_filters.FilterSet):
     class Meta:
         model = Session
         fields = ['tutor','course',]
-        widgets = {
-            'session_time': DateTimeInput(),
-        }
+        

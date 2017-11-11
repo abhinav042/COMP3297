@@ -7,6 +7,7 @@ from session_app.models import Session
 from student_app.models import Student
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from tutor_app.models import Tutor
 
 # Create your views here.
 
@@ -21,12 +22,8 @@ from django.shortcuts import redirect
 
 
 def sessions(request):
-    session_list = Session.objects.all()
-    session_filter = SessionFilter(request.GET, queryset=session_list)
-    # user_id= request.user
-    # print(user_id)
-    # student=Student.objects.get(user=user_id)
-    # print(student.id)
+    session_list = Session.objects.filter(status=0)
+    session_filter = SessionFilter(request.GET,queryset=session_list)
     return render(request, 'sessions.html', {'filter': session_filter})
     
     
@@ -34,13 +31,19 @@ def book_session(request):
     session=Session.objects.get(id=request.GET.get('sess'))
     user_id= request.user
     student=Student.objects.get(user=user_id)
+    student.wallet = student.wallet - session.tutor.salary
     session.student=student
     session.status=1
     session.save()
+    student.save()
     return redirect('/student_app/index')
     
 def cancel_session(request):
     session=Session.objects.get(id=request.GET.get('sess'))
+    user_id= request.user
+    student=Student.objects.get(user=user_id)
+    student.wallet = student.wallet + session.tutor.salary
+    student.save()
     student=Student.objects.get(user=1)
     session.student=student
     session.status=0

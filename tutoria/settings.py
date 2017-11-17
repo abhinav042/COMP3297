@@ -144,3 +144,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/student_app/user_login'
+
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

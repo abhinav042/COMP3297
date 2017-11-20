@@ -10,6 +10,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
 from tutor_app.models import Tutor
 from django.contrib.auth.models import User
+from student_app.forms import EditProfileForm
+from student_app.forms import EditUserForm
 # Create your views here.
 def index(request):
     user_id=request.user
@@ -108,17 +110,20 @@ def user_login(request):
   
 @login_required      
 def edit_profile(request):
-    
+    args = {}
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user.student)
-        
-        if form.is_valid():
+        form = EditProfileForm(request.POST, instance=request.user.student)
+        form2 = EditUserForm(request.POST, instance=request.user)
+        if form.is_valid() and form2.is_valid():
             form.save()
+            form2.save()
             return redirect('/student_app/index')
     
     else:
-        form = UserChangeForm(instance=request.user.student)
-        args = {'form':form}
+        form = EditProfileForm(instance=request.user.student)
+        form2 = EditUserForm(instance=request.user)
+        args['form'] = form
+        args['form2'] = form2
         return render(request, 'student_app/edit_profile.html', args)
         
 def view_tutors(request):

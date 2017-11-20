@@ -1,25 +1,23 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserChangeForm
-from student_app.models import Student
-import django_filters
 from tutor_app.models import Tutor
+from django.contrib.auth.forms import UserChangeForm
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta():
         model = User
-        fields = ('first_name','last_name','username','email','password')
+        fields = ('username','email','password')
 
-class StudentForm(forms.ModelForm):
+class TutorForm(forms.ModelForm):
     class Meta():
-        model = Student
-        fields = ('profile_pic',)
+        model = Tutor
+        fields = ('first_name','last_name','profile_pic','bio','contracted','salary')
         
 class EditProfileForm(UserChangeForm):
     class Meta():
-        model = Student
+        model = Tutor
         fields = (
             'wallet',
             'profile_pic'
@@ -30,14 +28,9 @@ class EditUserForm(UserChangeForm):
         model = User
         fields = (
             'email',
-            'first_name',
-            'last_name',
             'password'
         )
 
-class TutorFilter(django_filters.FilterSet):
-    class Meta():
-        model = Tutor
-        fields = ['first_name','last_name']
 
-        
+
+

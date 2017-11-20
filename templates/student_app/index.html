@@ -12,7 +12,6 @@
             <p>
               {{session.course}} - {{session.tutor}} - {{session.session_time}}
             </p><a href="{% url 'session_app:cancel_session' %}?sess={{session.id}}">Cancel</a>
-            <p> wallet : {{session.student.wallet}}</p>
             {% empty %}
             <p>
               You have not enrolled in any tutorial session

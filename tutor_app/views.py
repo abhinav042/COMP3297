@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from tutor_app.models import Tutor
+from tutor_app.forms import EditProfileForm, EditUserForm
 
 # Create your views here.
 def index(request):
@@ -84,3 +85,21 @@ def user_login(request):
             return HttpResponse('Invalid login details supplied')
     else:
         return render(request,'tutor_app/login.html',{})
+        
+@login_required      
+def edit_profile(request):
+    args = {}
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user.tutor)
+        form2 = EditUserForm(request.POST, instance=request.user)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            return redirect('/tutor_app/index')
+    
+    else:
+        form = EditProfileForm(instance=request.user.tutor)
+        form2 = EditUserForm(instance=request.user)
+        args['form'] = form
+        args['form2'] = form2
+        return render(request, 'tutor_app/edit_profile.html', args)

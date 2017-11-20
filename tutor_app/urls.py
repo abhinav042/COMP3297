@@ -12,4 +12,5 @@ urlpatterns=[
     url(r'^index/$',views.index,name='index'),
     url(r'^switch/$',views.switch,name='switch'),
     url(r'^profile/(?P<tutor_id>\w+)/$', views.profile, name='profile'),
+    url(r'^edit/', views.edit_profile, name='edit_profile')
 ]

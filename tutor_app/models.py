@@ -11,6 +11,8 @@ class Timeslot(models.Model):
 class Tutor(models.Model):
 
     user = models.OneToOneField(User,null=True)
+    first_name = models.CharField(max_length=30,null=True);
+    last_name = models.CharField(max_length=30,null=True);
     wallet = models.FloatField(null=True)
     profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
     bio = models.TextField(null=True)

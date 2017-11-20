@@ -13,4 +13,6 @@ urlpatterns=[
     url(r'^logout/$',views.user_logout,name='logout'),
     url(r'^index/$',views.index,name='index'),
     url(r'^switch/$',views.switch,name='switch'),
+    url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
+    url(r'^view_tutors/$',views.view_tutors,name='view_tutors'),
 ]

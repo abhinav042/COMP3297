@@ -9,7 +9,6 @@ from student_app.models import Student
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
 from tutor_app.models import Tutor
-from django.contrib.auth.models import User
 # Create your views here.
 def index(request):
     user_id=request.user
@@ -120,7 +119,7 @@ def edit_profile(request):
         form = UserChangeForm(instance=request.user.student)
         args = {'form':form}
         return render(request, 'student_app/edit_profile.html', args)
-        
+def view_tutors(request):
 def view_tutors(request):
     tutor_list = Tutor.objects.all()
     tutor_filter = TutorFilter(request.GET,queryset=tutor_list)

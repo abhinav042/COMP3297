@@ -22,7 +22,7 @@
           {% endif %}
           {# Some logic on what to display for last item#}
           {% if user.is_authenticated %}
-            <li><a href="{% url 'session_app:sessions' %}">Book a session</a></li>
+            <li><a href="{% url 'student_app:view_tutors' %}">Book a session</a></li>
             <li><a href="{% url 'student_app:logout' %}">Logout</a></li>
           {% else %}
             <li><a class="navbar-link" href="{% url 'student_app:user_login' %}">Login</a></li>

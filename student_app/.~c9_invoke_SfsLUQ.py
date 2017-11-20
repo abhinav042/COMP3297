@@ -8,8 +8,7 @@ from session_app.models import Session
 from student_app.models import Student
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
-from tutor_app.models import Tutor
-from django.contrib.auth.models import User
+from tutor
 # Create your views here.
 def index(request):
     user_id=request.user

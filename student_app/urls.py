@@ -15,4 +15,7 @@ urlpatterns=[
     url(r'^switch/$',views.switch,name='switch'),
     url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
     url(r'^view_tutors/$',views.view_tutors,name='view_tutors'),
+    url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
+    url(r'^password/$', views.change_password, name='change_password')
+    #url(r'^timeSlots/$',views.timeSlots,name='timeslots'),
 ]

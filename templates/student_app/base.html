@@ -27,7 +27,9 @@
           {% else %}
             <li><a class="navbar-link" href="{% url 'student_app:user_login' %}">Login</a></li>
           {% endif %}
-          
+          {% if user.is_authenticated %}
+          <li><a class="navbar-link" href="{% url 'student_app:edit_profile' %}">Edit Profile</a></li>
+          {% endif %}
           <li><a class="navbar-link" href="{% url 'student_app:switch' %}">Switch to Tutor mode</a></li>
 
         </ul>

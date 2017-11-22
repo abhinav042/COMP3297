@@ -12,5 +12,8 @@ urlpatterns=[
     url(r'^index/$',views.index,name='index'),
     url(r'^switch/$',views.switch,name='switch'),
     url(r'^profile/(?P<tutor_id>\w+)/$', views.profile, name='profile'),
-    url(r'^edit/', views.edit_profile, name='edit_profile')
+    url(r'^edit/', views.edit_profile, name='edit_profile'),
+    url(r'^blockSession/$',views.blockSession, name='blockSession'),
+    url(r'^timeSlots/$',views.timeSlots, name='timeSlots'),
+    url(r'^password/$', views.change_password, name='change_password')
 ]

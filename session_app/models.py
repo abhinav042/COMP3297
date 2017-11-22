@@ -13,9 +13,9 @@ class Session(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+   #course = models.ForeignKey(Course, on_delete=models.CASCADE)
     session_time = models.DateTimeField(null=True)
-    # 0=available 1=unavailable 2=passed
+  
     status = models.IntegerField(default=0)
     
 

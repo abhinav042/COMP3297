@@ -21,8 +21,7 @@ class EditProfileForm(UserChangeForm):
     class Meta():
         model = Student
         fields = (
-            'wallet',
-            'profile_pic'
+            'profile_pic',
         )
         
 class EditUserForm(UserChangeForm):
@@ -38,6 +37,6 @@ class EditUserForm(UserChangeForm):
 class TutorFilter(django_filters.FilterSet):
     class Meta():
         model = Tutor
-        fields = ['first_name','last_name']
+        fields = ['first_name','last_name','subject_tag','university',]
 
         

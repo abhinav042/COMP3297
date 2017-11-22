@@ -7,6 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from tutor_app.models import Tutor
 from tutor_app.forms import EditProfileForm, EditUserForm
+from datetime import datetime,date 
+from datetime import timedelta
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 def index(request):
@@ -103,3 +108,38 @@ def edit_profile(request):
         args['form'] = form
         args['form2'] = form2
         return render(request, 'tutor_app/edit_profile.html', args)
+        
+def datetime_range(start, end, delta):
+    current = start
+    while current < end:
+        yield current
+        current += delta
+            
+def timeSlots(request):
+    start = datetime.today()
+    end = start + timedelta(1)
+    print(end)
+    dts = [dt.strftime('%Y-%m-%d T%H:%M Z') for dt in 
+       datetime_range(start, datetime(2017, 11, 22, 9+10),timedelta(minutes=30))]
+    return render(request,'tutor_app/timeSlots.html',{'timeSlot':dts})
+
+def blockSession(request):
+    timeSlot = request.GET.get("time")
+    
+    
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was changed successfully')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'ERROR > ')
+        
+    else: 
+        form = PasswordChangeForm(request.user)
+    return render(request, 'student_app/change_password.html', {
+        'form': form
+    })

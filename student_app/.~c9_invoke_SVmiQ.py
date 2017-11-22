@@ -57,7 +57,7 @@ def user_logout(request):
 
 def register(request):
     registered =False
-            
+
     if request.method == "POST":
         user_form = UserForm(data=request.POST)
         student_form = StudentForm(data=request.POST)
@@ -90,6 +90,8 @@ def register(request):
                             'student_form':student_form,
                             'registered':registered}
                             )
+
+
 
 def user_login(request):
 
@@ -145,7 +147,7 @@ def validate_username(request):
         'haha':True
     }
     return JsonResponse(data)
-    
+    u
     
 def change_password(request):
     if request.method == 'POST':
@@ -174,4 +176,4 @@ def change_password(request):
 #     dts = [dt.strftime('%Y-%m-%d T%H:%M Z') for dt in 
 #       datetime_range(datetime.datetime.now), datetime(2016, 9, 1, 9+12), 
 #       timedelta(minutes=30))]
-#     return render(request,'tutor_app/timeSlots.html',{'timeSlot':dts})
+#     return render(request,'tutor_app/timeSlots.html',{'timeSlot':dts})        

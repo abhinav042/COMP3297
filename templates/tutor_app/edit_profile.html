@@ -5,8 +5,29 @@
     <form method="post">
         {% csrf_token %}
         {{ form2.as_p }}
+        <img id="preview" src="#" alt="your profile pic" style="max-width: 400px;"/>
         {{ form.as_p }}
+        <a href="{%url 'tutor_app:change_password' %}"  class = "btn">Change Password</a>
         <button type="submit">Submit</button>
     </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#id_profile_pic').change(function(){
+            readURL(this);
+        });
+    });
+</script>
 {% endblock %}

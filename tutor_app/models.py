@@ -5,8 +5,8 @@ from course_app.models import Course
 # Create your models here.
 class Timeslot(models.Model):
     
-    date_of_slot = models.DateField(null=True);
-    time_of_slot = models.TimeField(null=True);
+    date_of_slot = models.DateTimeField(null=True);
+    #time_of_slot = models.TimeField(null=True);
 
 class Tutor(models.Model):
 
@@ -18,8 +18,10 @@ class Tutor(models.Model):
     bio = models.TextField(null=True)
     contracted = models.BooleanField(default=False)
     salary = models.FloatField(default=0)
-    courses = models.ManyToManyField(Course, null=True)
-    blocked_timeslots = models.ManyToManyField(Timeslot, null=True)
+    #courses = models.ManyToManyField(Course, null=True)
+    subject_tag = models.CharField(max_length=30,null=True)
+    university = models.CharField(max_length=30,null=True)
+    #blocked_timeslots = models.ManyToManyField(Timeslot, null=True)
     def __str__(self):
         return self.user.username
     

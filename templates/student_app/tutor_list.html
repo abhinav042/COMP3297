@@ -15,6 +15,16 @@
           {{ filter.form.last_name.label_tag }}
           {% render_field filter.form.last_name class="form-control" %}
         </div>
+        
+         <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.subject_tag.label_tag }}
+          {% render_field filter.form.subject_tag class="form-control" %}
+        </div>
+        
+         <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.university.label_tag }}
+          {% render_field filter.form.university class="form-control" %}
+        </div>
 
         <!--<div class="form-group col-sm-4 col-md-3">-->
         <!--  <label>Session:</label>-->
@@ -23,7 +33,7 @@
 
       </div>
       <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-search"></span> Search
+        <span class="glyphicon glyphicon-search"></span> Filter
       </button>
     </div>
   </form>

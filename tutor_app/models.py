@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from course_app.models import Course
+import numpy as np
 
 # Create your models here.
 class Timeslot(models.Model):
@@ -24,5 +25,25 @@ class Tutor(models.Model):
     #blocked_timeslots = models.ManyToManyField(Timeslot, null=True)
     def __str__(self):
         return self.user.username
+        
+    def average_rating(self):
+        all_ratings = map(lambda x: x.rating, self.review_set.all())
+        return np.mean(all_ratings)
+        
+class Review(models.Model):
     
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+    )
+    
+    tutor = models.ForeignKey(Tutor)
+    user_name = models.CharField(max_length = 100)
+    comment = models.CharField(max_length = 200)
+    pub_date = models.DateTimeField('date published')
+    rating = models.IntegerField(choices = RATING_CHOICES)
     

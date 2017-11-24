@@ -69,6 +69,8 @@ def register(request):
                             'registered':registered}
                             )
 
+
+
 def user_login(request):
 
     if request.method == 'POST':
@@ -163,6 +165,11 @@ def timeSlots(request):
 
 def blockSession(request):
 
+    # timeSlot = request.GET.get("time")
+    # user_id=request.user
+
+    # session = Session(tutor = tutor, session_time = timeSlot, status = 1)
+    # session.save()
     if request.method=='POST':
         user_id=request.user
         json_data=json.loads(request.POST['data'])

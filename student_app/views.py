@@ -39,12 +39,7 @@ def index(request):
         except Session.DoesNotExist:
             session = None
             print(session)
-            
-    
     return render(request,'student_app/index.html')
-    
-    
-    
 
 def switch(request):
     logout(request)
@@ -112,6 +107,15 @@ def user_login(request):
             return HttpResponse('Invalid login details supplied')
     else:
         return render(request,'student_app/login.html',{})
+        
+@login_required
+def session_list(request,tutor_id):
+    tutor = Tutor.objects.get(id=tutor_id)
+    print(tutor.first_name)
+    session = Session.objects.filter(tutor = tutor).filter(status = 0).all()
+    print(Session.objects.filter(tutor = tutor,status = 0).count())
+
+    return render(request, 'student_app/session_list.html', {'session_list': session})
   
 @login_required      
 def edit_profile(request):

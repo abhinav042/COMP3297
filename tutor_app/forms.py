@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import ModelForm, Textarea
 from django.contrib.auth.models import User
-from tutor_app.models import Tutor
+from tutor_app.models import Tutor, Review
 from django.contrib.auth.forms import UserChangeForm
 
 class UserForm(forms.ModelForm):
@@ -32,3 +33,12 @@ class EditUserForm(UserChangeForm):
             'email',
             'password'
         )
+        
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['user_name', 'rating', 'comment']
+        widgets = {
+            'comment': Textarea(attrs={'cols': 40, 'rows': 15})
+        }
+        

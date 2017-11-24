@@ -1,0 +1,21 @@
+{% block title %}
+<h2>Top Tutors</h2>
+{% endblock %}
+
+{% block content %}
+{% if tutor_list %}
+<div class="row">
+    {% for tutor in tutor_list %}
+    <div class="col-xs-6 col-lg-4">
+        <h4><a href="{% url 'tutor_app:tutor_detail' tutor.id %}">
+        {{ tutor.first_name }} {{ tutor.last_name }}
+        </a></h4>
+        <h5> reviews</h5>
+        <h5>{{tutor.average_rating}} average rating</h5>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>No tutors are available.</p>
+{% endif %}
+{% endblock %}

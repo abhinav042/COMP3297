@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from course_app.models import Course
 import numpy as np
+from datetime import datetime
 
 # Create your models here.
 class Timeslot(models.Model):
@@ -19,16 +20,17 @@ class Tutor(models.Model):
     bio = models.TextField(null=True)
     contracted = models.BooleanField(default=False)
     salary = models.FloatField(default=0)
-    #courses = models.ManyToManyField(Course, null=True)
+    courses = models.ManyToManyField(Course)
     subject_tag = models.CharField(max_length=30,null=True)
     university = models.CharField(max_length=30,null=True)
+    #average_rating = models.FloatField(default=2)
     #blocked_timeslots = models.ManyToManyField(Timeslot, null=True)
     def __str__(self):
         return self.user.username
         
     def average_rating(self):
-        all_ratings = map(lambda x: x.rating, self.review_set.all())
-        return np.mean(all_ratings)
+      all_ratings = map(lambda x: x.rating, self.review_set.all())
+      return np.mean(all_ratings)
         
 class Review(models.Model):
     
@@ -44,6 +46,6 @@ class Review(models.Model):
     tutor = models.ForeignKey(Tutor)
     user_name = models.CharField(max_length = 100)
     comment = models.CharField(max_length = 200)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(default=datetime.now(), blank=True)
     rating = models.IntegerField(choices = RATING_CHOICES)
     

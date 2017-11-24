@@ -17,7 +17,7 @@
           {# Django Home Link / Admin Link / Register Link#}
           <li  class="nav-item"><a class="navbar-brand" href="{% url 'index' %}">Tutoria</a></li>
 					{% if user.is_authenticated %}
-            <li><a href="{% url 'tutor_app:timeSlots' %}">Block Sessions</a></li>
+            <li><a href="{% url 'tutor_app:timeSlots' %}">Edit Timeslot</a></li>
           {% endif %}
         </ul>
 				<ul class="nav navbar-nav navbar-right">

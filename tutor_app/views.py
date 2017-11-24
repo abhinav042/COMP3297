@@ -121,47 +121,67 @@ def timeSlots(request):
     preset_time = []
     time_slot = []
     date_array = []
+    exist_session = []
+    lock_slot = []
+    time_range = 18
     elem_time = datetime.time(9, 00)
     time_delta = datetime.timedelta(minutes = 30)
-    for i in range(18):
+    tutor = Tutor.objects.get(user=request.user)
+
+    for i in range(time_range):
         temp_time = datetime.datetime.combine(datetime.date(1, 1, 1), elem_time)
         preset_time.append(elem_time)
         elem_time = (temp_time + time_delta).time()
 
     curr_date = datetime.datetime.now().date()
+
     date_delta = datetime.timedelta(days = 1)
+    lock_time = datetime.datetime.now() + date_delta + time_delta*16
+    if tutor.contracted == False:
+        time_range = 9
+        time_delta = datetime.timedelta(minutes = 60)
     for i in range(14):
         temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
         date_array.append(curr_date.strftime("%d/%m/%y (%a)"))
         curr_date = (temp_date + date_delta).date()
-    for i in range(18):
+    for i in range(time_range):
         curr_date = datetime.datetime.now().date()
         time_slot.append(preset_time[i].strftime("%H:%M"))
         for j in range(14):
             time_to_append = datetime.datetime.combine(curr_date, preset_time[i]).isoformat()
+            if Session.objects.filter(session_time = time_to_append).filter(tutor = tutor).exists():
+                session = Session.objects.filter(session_time = time_to_append).filter(tutor = tutor).get()
+                exist_session.append(time_to_append)
+                print("session found")
+                if session.status == '2':
+                    lock_slot.append(time_to_append)
+            if datetime.datetime.combine(curr_date, preset_time[i]) <= lock_time:
+                lock_slot.append(time_to_append)
             time_slot.append(time_to_append)
             temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
             curr_date = (temp_date + date_delta).date()
-    
-    # end = start + timedelta(1)
-    # print(end)
-    # dts = [dt.strftime('%Y-%m-%d %H:%M ') for dt in 
-    #   datetime_range(start, datetime(2017, 11, 22, 9+10),timedelta(minutes=30))]
-       
-    ## returning timeslot array to the template
-    return render(request,'tutor_app/timeSlots.html',{'timeSlot':time_slot, 'date_array':date_array})
+
+    return render(request,'tutor_app/timeSlots.html',{'timeSlot':time_slot, 'date_array':date_array, 'exist_session':exist_session, 'lock_slot':lock_slot})
 
 def blockSession(request):
 
-    # timeSlot = request.GET.get("time")
-    # user_id=request.user
-    # tutor = Tutor.objects.get(user=user_id)
-    # session = Session(tutor = tutor, session_time = timeSlot, status = 1)
-    # session.save()
     if request.method=='POST':
+        user_id=request.user
         json_data=json.loads(request.POST['data'])
         for data in json_data:
-            print(data)
+            tutor = Tutor.objects.get(user=user_id)
+            if Session.objects.filter(session_time = data['timeslot']).filter(tutor = tutor).exists():
+                print(data['timeslot']+ " Session Exist")
+                session = Session.objects.filter(session_time = data['timeslot']).filter(tutor = tutor)
+                if data['status'] != 0:
+                    print("Session deleted")
+                    session.delete()
+            else:
+                if data['status'] == 0:
+                    print(data['timeslot']+ " Session Created")
+                    session = Session(tutor = tutor, session_time = data['timeslot'], status = 1)
+                    session.save()
+
         messages.success(request, 'Your timeslot has been updated.')
         return  JsonResponse({'message': 'Timeslot Edit Saved'})
     

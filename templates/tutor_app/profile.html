@@ -4,8 +4,8 @@
 <div class="container">
     <div class="jumbotron">
         <div style="display: flex; width: 100%;">
-            <div class="profile_pic_box" style="width: 350px; height: 350px; background-color: #FFF; background-size: contain;background-image: url({{tutor.profile_pic}})"></div>
-            <div style="margin-left: 36px; padding-left: 36px; border-left: #FFF dashed 2px">
+            <div class="profile_pic_box" style="background-image: url(../../../media/{{tutor.profile_pic}})"></div>
+            <div style="margin-left: 36px; padding-left: 36px;width: 450px; border-left: #FFF dashed 2px">
                 <h4>Name</h4>
                 <p>{{tutor.first_name}} {{tutor.last_name}}</p>
                 <h4>E-mail Address</h4>
@@ -13,17 +13,44 @@
                 <h4>Biography</h4>
                 <p>{{tutor.bio}}</p>
                 {% if tutor.contracted %}
-                    <h4>Contracted</h4>
+                    <h4>Contracted tutor</h4>
                 {% else %}
                     <h4>Fees per hour:</h4><p>{{tutor.salary}}</p>
                 {% endif %}
             </div>
+            <div class="flex flex-column flex-center rating-box">
+                <div style="font-size:20px;font-weight:500;">Rating:</div>
+                {% if tutor.review_set.count == 0 %}
+                <div><span class="stars">0</span></div>
+                {% else %}
+                <div><span class="stars">{{tutor.average_rating|floatformat}}</span></div>
+                {% endif %}
+                <div style="color:#878787;">{{ tutor.average_rating | floatformat }}</div>
+                <div><a href={% url 'tutor_app:tutor_detail' tutor_id=tutor.id %}>{{tutor.review_set.count}} review(s)</a></div>
+            </div>
         </div>
         
     </div>
+    <a type="button" class="btn btn-primary" href={% url 'student_app:session_list' tutor_id=tutor.id %}>Book Session</a>
     
 </div>
-
+<script type="text/javascript">
+    $.fn.stars = function() {
+      return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(6, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
+      });
+    }
+    $(document).ready(function() {
+      $('span.stars').stars();
+    });
+  </script>
 
 
 

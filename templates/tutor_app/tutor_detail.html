@@ -1,25 +1,46 @@
-{% load bootstrap3 %}
-
-<h2>{{ tutor.name }}</h2>
-
-<h3>Recent reviews</h3>
-
-{% if tutor.review_set.all %}
-<h5>{{ tutor.review_set.count }} reviews ({{ tutor.average_rating | floatformat }} average rating)</h5>
-
-{% if tutor.review_set.all %}
-<div>
-    {% for review in tutor.review_set.all %}
-    <div>
-        <em>{{ review.comment }}</em>
-        <h6>Rated {{ review.rating }} of 5 by {{ review.user_name }}</h6>
-        <h5><a href="{% url 'tutor_app:review_detail' review.id %}">
-        Read more
-        </a></h5>
-    </div>
-    {% endfor %}
-</div>
-{% else %}
-<p>No reviews for this tutor yet</p>
-{% endif %}
-{% endif %}
+{% extends 'student_app/base.html' %}
+{% block body_block %}
+    <h2>{{ tutor.first_name }} {{tutor.last_name}}</h2>
+    
+    <h3>Recent reviews</h3>
+    
+    {% if tutor.review_set.count > 0 %}
+    <h2 style="display:inline;"><small>Average Rate: </small> {{ tutor.average_rating | floatformat }}/6 </h2> ({{ tutor.review_set.count }} reviews)
+    
+        {% if tutor.review_set.count > 0 %}
+        <table class="table" style="margin-top: 20px;">
+            <tbody>
+            {% for review in tutor.review_set.all %}
+            <tr><td>
+                <em>{{ review.comment }}</em><br/>
+                <span class="stars" style="margin-top: 15px;">{{ review.rating }}</span><small> by {{ review.user_name }}</small>
+                <!--<h5><a href="{% url 'tutor_app:review_detail' review.id %}">-->
+                <!--Read more-->
+                <!--</a></h5>-->
+            </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        {% endif %}
+    {% else %}
+        <p>No reviews for this tutor yet</p>    
+    {% endif %}
+    <script type="text/javascript">
+    $.fn.stars = function() {
+      return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(6, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
+      });
+    }
+    $(document).ready(function() {
+      $('span.stars').stars();
+    });
+  </script>
+{% endblock %}

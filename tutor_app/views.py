@@ -76,14 +76,17 @@ def user_login(request):
         password = request.POST.get('password')
 
         user =authenticate(username=username,password=password)
-
+        try:
+            tutor = Tutor.objects.get(user=user)
+        except:
+            tutor=None
         if user:
-            if user.is_active:
+            if tutor != None:
                 login(request,user)
                 return render(request,'tutor_app/index.html')
 
             else:
-                return HttpResponse('Account Not Active')
+                return HttpResponse('Not Registered as a Tutor')
         else:
             print('Someone Tried to login and failed')
             print('Username: {} and password: {}'.format(username,password))

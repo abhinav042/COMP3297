@@ -7,6 +7,7 @@ from tutor_app.models import Tutor
 from course_app.models import Course
 from django.views.generic.detail import DetailView
 from django.utils import timezone
+from django_cron import CronJobBase, Schedule
 
 # Create your models here.
 class Session(models.Model):
@@ -18,9 +19,24 @@ class Session(models.Model):
   
     status = models.IntegerField(default=0)
     
+    #0 = available
+    #1 = booked
+    #2 = blocked
+    #3 = passed
+    
 
     def __str__(self):
         return str(self.id)
+        
+# class MyCronJob(CronJobBase):
+#     RUN_EVERY_MINS = 1 # every 30 mins
+    
+#     schedule = Schedule(run_every_mins = RUN_EVERY_MINS)
+#     code = 'session_app.my_cron_job'
+    
+#     def do(self):
+#         # add the code which repeats here
+#         print ("RUN\n")dja
         
 # class SessionDetailView(DetailView):
 
@@ -30,4 +46,3 @@ class Session(models.Model):
 #         context = super(SessionDetailView, self).get_context_data(**kwargs)
 #         context['now'] = timezone.now()
 #         return context
-

@@ -14,6 +14,7 @@ from student_app.forms import EditProfileForm
 from student_app.forms import EditUserForm
 from django.http import JsonResponse
 from datetime import datetime,timedelta
+import datetime
 from tutor_app.models import Timeslot
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -93,14 +94,18 @@ def user_login(request):
         password = request.POST.get('password')
 
         user =authenticate(username=username,password=password)
+        try:
+            student = Student.objects.get(user=user)
+        except:
+            student= None
 
         if user:
-            if user.is_active:
+            if student != None:
                 login(request,user)
                 return redirect('/student_app/index')
 
             else:
-                return HttpResponse('Account Not Active')
+                return HttpResponse('Not Registered as a Student')
         else:
             print('Someone Tried to login and failed')
             print('Username: {} and password: {}'.format(username,password))
@@ -111,11 +116,44 @@ def user_login(request):
 @login_required
 def session_list(request,tutor_id):
     tutor = Tutor.objects.get(id=tutor_id)
-    print(tutor.first_name)
-    session = Session.objects.filter(tutor = tutor).filter(status = 0).all()
-    print(Session.objects.filter(tutor = tutor,status = 0).count())
+    blocked_session = Session.objects.filter(tutor = tutor).filter(status = 2).all()
+    booked_session = Session.objects.filter(tutor = tutor).filter(status = 1).all()
+    preset_time = []
+    time_slot = []
+    date_array = []
+    lock_slot = []
+    time_range = 18
+    elem_time = datetime.time(9, 00)
+    time_delta = datetime.timedelta(minutes = 30)
 
-    return render(request, 'student_app/session_list.html', {'session_list': session})
+    for i in range(time_range):
+        temp_time = datetime.datetime.combine(datetime.date(1, 1, 1), elem_time)
+        preset_time.append(elem_time)
+        elem_time = (temp_time + time_delta).time()
+
+    curr_date = datetime.datetime.now().date()
+
+    date_delta = datetime.timedelta(days = 1)
+    lock_time = datetime.datetime.now() + date_delta + time_delta*16
+    if tutor.contracted == False:
+        time_range = 9
+        time_delta = datetime.timedelta(minutes = 60)
+    for i in range(7):
+        temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
+        date_array.append(curr_date.strftime("%d/%m/%y (%a)"))
+        curr_date = (temp_date + date_delta).date()
+    for i in range(time_range):
+        curr_date = datetime.datetime.now().date()
+        time_slot.append(preset_time[i].strftime("%H:%M"))
+        for j in range(7):
+            time_to_append = datetime.datetime.combine(curr_date, preset_time[i]).isoformat()
+            if datetime.datetime.combine(curr_date, preset_time[i]) <= lock_time:
+                lock_slot.append(time_to_append)
+            time_slot.append(time_to_append)
+            temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
+            curr_date = (temp_date + date_delta).date()
+
+    return render(request, 'student_app/session_list.html', {'time_slot': time_slot,'time_array':preset_time, 'blocked_session_list': blocked_session,'booked_session_list': booked_session, 'lock_slot': lock_slot})
   
 @login_required      
 def edit_profile(request):
@@ -136,13 +174,13 @@ def edit_profile(request):
         return render(request, 'student_app/edit_profile.html', args)
         
 def view_tutors(request):
-    tutor_list = Tutor.objects.all()
+    tutor_list = Tutor.objects.filter(active = True)
     tutor_filter = TutorFilter(request.GET,queryset=tutor_list)
     return render(request, 'student_app/tutor_list.html', {'filter': tutor_filter})
     
 def validate_username(request):
     date = request.GET.get('username', None)
-    datetime_object = datetime.strptime(date, '%b %d %Y %I:%M%p')
+    datetime_object = datetime.datetime.strptime(date, '%b %d %Y %I:%M%p')
     timeslot = Timeslot(date_of_slot = datetime_object)
     timeslot.save()
     data={

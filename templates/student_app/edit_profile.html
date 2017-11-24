@@ -5,7 +5,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form2.as_p }}
-        <img id="preview" src="#" alt="your profile pic" style="max-width: 400px;"/>
+        <img id="preview" src="../../media/{{user.student.profile_pic}}" alt="your profile pic" style="max-width: 400px;"/>
         {{ form.as_p }}
         <a href="{%url 'student_app:change_password' %}"  class = "btn">Change Password</a>
         <button type="submit">Submit</button>

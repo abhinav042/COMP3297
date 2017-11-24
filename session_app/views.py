@@ -8,6 +8,8 @@ from student_app.models import Student
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from tutor_app.models import Tutor
+from datetime import datetime,timedelta
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -49,3 +51,17 @@ def cancel_session(request):
     session.status=0
     session.save()
     return redirect('/student_app/index')
+    
+def cronFuntion():
+    a = datetime.now()
+    b = a - timedelta(minutes=30)
+    sessions = Session.objects.filter(session_time  = b)
+    for session in sessions:
+        session.status = 3
+        session.tutor.wallet += session.tutor.salary
+        subject = "Payment Recieved"
+        from_email = "tutoria@admin.com"
+        to_email = session.tutor.email
+        message =  "An amount of " + session.tutor.salary + " has been deposited to your wallet. Your Current balance is "+ session.tutor.wallet
+        send_mail(subject,message, from_email, to_email, fail_silently = False)
+        

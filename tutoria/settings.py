@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackends'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
@@ -46,6 +48,10 @@ INSTALLED_APPS = [
     'course_app',
     'session_app',
     'widget_tweaks',
+    'myTutor_app',
+    'django_cron',
+    'django_crontab',
+    'django.core.mail',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -118,6 +124,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CRON_CLASSES = [
+    "tutoria.cron.MyCronJob",    
+]
+
+# CRONJOBS = [
+#     ('*/1 * * * *', 'tutoria.cron.my_scheduled_job')    
+# ]
 
 
 # Internationalization

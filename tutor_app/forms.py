@@ -16,15 +16,17 @@ class TutorForm(forms.ModelForm):
         model = Tutor
         fields = ('first_name','last_name','profile_pic','bio','contracted','salary')
         
-class EditProfileForm(UserChangeForm):
+class EditProfileForm(forms.ModelForm):
     class Meta():
         model = Tutor
         fields = (
-            'wallet',
-            'profile_pic',
-            'first_name',
-            'last_name',
+            'first_name', 'last_name', 'profile_pic', 'bio',
         )
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        f = self.fields.get('user_permissions', None)
+        if f is not None:
+            f.queryset = f.queryset.select_related('content_type')
         
 class EditUserForm(UserChangeForm):
     class Meta():

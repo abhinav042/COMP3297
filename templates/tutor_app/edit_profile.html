@@ -5,7 +5,10 @@
     <form method="post">
         {% csrf_token %}
         {{ form2.as_p }}
-        <img id="preview" src="#" alt="your profile pic" style="max-width: 400px;"/>
+        <p style="font-size: 14px; font-weight: bold">Preview Profile Pic:</p>
+        <div style="display: flex; align-items: center; justify-content: center; width: 400px; border: 2px dashed lightgray">
+            <img id="preview" src="../../media/{{user.tutor.profile_pic}}" alt="your profile pic" style="max-width: 400px;"/>
+        </div>
         {{ form.as_p }}
         <a href="{%url 'tutor_app:change_password' %}"  class = "btn">Change Password</a>
         <button type="submit">Submit</button>

@@ -1,17 +1,20 @@
-<h2>Latest reviews</h2>
-
-{% if latest_review_list %}
-<div>
-    {% for review in latest_review_list %}
+{% extends "tutor_app/base.html" %}
+{% block body_block %}
+    <h2>Latest reviews</h2>
+    
+    {% if latest_review_list %}
     <div>
-        <h4><a href="{% url 'tutor_app:review_detail' review.id %}">
-        {{ review.tutor.name }}
-        </a></h4>
-        <h6>rated {{ review.rating }} of 5 by {{ review.user_name }}</h6>
-        <p>{{ review.comment }}</p>
+        {% for review in latest_review_list %}
+        <div>
+            <h4><a href="{% url 'tutor_app:review_detail' review.id %}">
+            {{ review.tutor.name }}
+            </a></h4>
+            <h6>rated {{ review.rating }} of 5 by {{ review.user_name }}</h6>
+            <p>{{ review.comment }}</p>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-{% else %}
-<p>No reviews are available.</p>
-{% endif %}
+    {% else %}
+    <p>No reviews are available.</p>
+    {% endif %}
+{% endblock %}

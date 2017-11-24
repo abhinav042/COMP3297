@@ -1,0 +1,46 @@
+.flex{
+    display: flex;
+}
+.flex-center{
+    align-items: center;
+    justify-content: center;
+}
+.flex-start{
+    align-items: center;
+    justify-content: flex-start;
+}
+.flex-column{
+    flex-direction: column;
+}
+.flex-between{
+     justify-content: space-between;
+}
+
+.rating-box{
+    background-color: white;
+    border: #ADADAD 1px solid;
+    border-radius: 3px;
+    height: 120px;
+    width: 180px;
+}
+
+span.stars, span.stars span {
+    display: block;
+    background: url(../stars.png) 0 -16px repeat-x;
+    width: 96px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+
+.profile_pic_box{
+    width: 350px;
+    height: 350px;
+    background-position: center;
+    border: 5px dashed lightgray;
+    background-color: ghostwhite;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

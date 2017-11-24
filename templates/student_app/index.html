@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="jumbotron">
-    <h1>Welcome to Student Portal</h1>
+    
     {% if user.is_authenticated %}
         <h2>Welcome {{ user.username }}!</h2>
         <h3>Your Sessions:</h3>
@@ -11,7 +11,7 @@
             {% for session in sessions %}
             <p>
               {{session.course}} - {{session.tutor}} - {{session.session_time}}
-            </p><a href="{% url 'session_app:cancel_session' %}?sess={{session.id}}">Cancel</a>
+            </p><a href="{% url 'session_app:cancel_session' %}?sess={{session.id}}">Cancel Session</a>
             {% empty %}
             <p>
               You have not enrolled in any tutorial session
@@ -22,7 +22,8 @@
           
          
     {% else %}
-        <h2>Please login/register to start using Tutoria</h2>
+      <h1>Welcome to Student Portal</h1>
+      <h2>Please login/register to start using Tutoria</h2>
     {% endif %}
   </div>
 </div>

@@ -1,39 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,700);
-html {
-  background: #29ce9a;
-  font-family: Raleway;
-  display: table;
-  width: 100%;
-  height: 100%;
-}
-
-body {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.demo {
-  display: inline-block;
-  padding: 50px;
-  background-color: #fff;
-  border-radius: 20px;
-  color: #666;
-  text-align: center;
-}
-
-.demo__content {
-  text-align: left;
-  display: inline-block;
-}
-
-.demo__title {
-  font-size: 50px;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-bottom: 30px;
-}
-
 .switcher {
   position: relative;
   display: inline-block;

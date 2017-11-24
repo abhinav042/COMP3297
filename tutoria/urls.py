@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from start_app import views
 from django.contrib.auth.views import password_reset,password_reset_done,password_reset_confirm,password_reset_complete
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^$',views.index,name='index'),
@@ -30,4 +32,4 @@ urlpatterns = [
     url(r'^reset-password/done/$',password_reset_done,name='password_reset_done'),
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',password_reset_confirm,name='password_reset_confirm'),
     url(r'^reset-password/complete/$',password_reset_complete,name='password_reset_complete'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

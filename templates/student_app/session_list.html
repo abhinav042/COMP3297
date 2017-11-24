@@ -1,23 +1,33 @@
 {% extends 'student_app/base.html' %}
 {% block body_block %}
+
+<style>
+	.div_box{
+		width: 12.5%;
+		height: 12.5%;
+	}
+</style>
+
   <div class="container">
     <div class="jumbotron">
         
-			<table class="table table-bordered">
-
-		    <tbody>
-		        {% for session in session_list %}
-		          <tr>
-		            <td>{{ session.session_time }}</td>
-		            <td><a href="{% url 'session_app:book_session' %}?sess={{session.id}}">Book</a></td>
-		          </tr>
-		        {% empty %}
-		          <tr>
-		            <td colspan="5">No session available</td>
-		          </tr>
-		        {% endfor %}
-		    </tbody>
-		  </table>
+			<div class="div_table">
+				<div class="div_thead">
+					<div class="col-0 row-0"></div>
+					{% for date in date_array %}
+						<div class="{{date}} row-0">{{date}}</div>
+					{% endfor %}
+				</div>
+				<div class="div_tbody">
+					
+					{% for time in time_array %}
+						<div class="col-0 row-{{forloop.counter}}">{{time}}</div>
+						{% for date in date_array %}
+							<div class="div_box col-{{forloop.counter}} row-{{forloop.parentloop.counter}}"><a href="/student_app/book_session?sess={{date}}T{{time}}">Book</a></div>
+						{% endfor %}
+					{% endfor %}
+				</div>
+			</div>
     </div>
   </div>
 {% endblock %}

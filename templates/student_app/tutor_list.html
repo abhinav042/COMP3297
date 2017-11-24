@@ -3,6 +3,24 @@
 {% load widget_tweaks %}
 
 {% block body_block %}
+  <link rel="stylesheet" href="/static/css/main.css"/>
+  <script type="text/javascript">
+    $.fn.stars = function() {
+      return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(6, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
+      });
+    }
+    $(document).ready(function() {
+      $('span.stars').stars();
+    });
+  </script>
   <form method="get">
     <div class="well">
       <h4 style="margin-top: 0">Filter</h4>
@@ -25,6 +43,11 @@
           {{ filter.form.university.label_tag }}
           {% render_field filter.form.university class="form-control" %}
         </div>
+        
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.courses.label_tag }}
+          {% render_field filter.form.courses class="form-control" %}
+        </div>
 
       </div>
       <button type="submit" class="btn btn-primary">
@@ -38,7 +61,21 @@
     <tbody>
         {% for tutor in filter.qs %}
           <tr>
-            <td><p><a href="{% url 'tutor_app:profile' tutor_id=tutor.id %}">{{tutor.first_name}}</a></p><p>{{tutor.bio}}</p></td>
+            <td>
+              <a class="flex flex-between" style="text-decoration:none; padding:0 15px;" href="{% url 'tutor_app:profile' tutor_id=tutor.id %}">
+                <div>
+                  <p>
+                    <h3>{{tutor.first_name}}</h3>
+                  </p>
+                  <p>{{tutor.bio}}</p> 
+                </div>
+                <div  class="flex flex-center">
+                  {% if tutor.review_set.count >= 3 %}
+                    <div class="flex flex-column flex-center" style="font-size:14px;"><span class="stars">{{tutor.average_rating|floatformat}}</span>{{ tutor.average_rating | floatformat }}/6</div>
+                  {% endif %}
+                </div>
+              </a>
+            </td>
             <!-- <td>{{ session.course }}</td>
             <td>{{ session.session_time }}</td>
             <td><a href="{% url 'session_app:book_session' %}?sess={{session.id}}">Book</a></td> -->

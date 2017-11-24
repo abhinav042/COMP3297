@@ -23,6 +23,7 @@ class Tutor(models.Model):
     courses = models.ManyToManyField(Course)
     subject_tag = models.CharField(max_length=30,null=True)
     university = models.CharField(max_length=30,null=True)
+    active = models.BooleanField(default=True)
     #average_rating = models.FloatField(default=2)
     #blocked_timeslots = models.ManyToManyField(Timeslot, null=True)
     def __str__(self):

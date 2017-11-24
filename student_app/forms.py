@@ -42,6 +42,6 @@ class EditUserForm(UserChangeForm):
 class TutorFilter(django_filters.FilterSet):
     class Meta():
         model = Tutor
-        fields = ['first_name','last_name','subject_tag','university',]
+        fields = ['first_name','last_name','subject_tag','university','courses']
 
         

@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from tutor_app.forms import UserForm , TutorForm
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from tutor_app.models import Tutor, Review
 from tutor_app.forms import EditProfileForm, EditUserForm, ReviewForm
 import datetime
+import json
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -151,11 +152,18 @@ def timeSlots(request):
     return render(request,'tutor_app/timeSlots.html',{'timeSlot':time_slot, 'date_array':date_array})
 
 def blockSession(request):
-    timeSlot = request.GET.get("time")
-    user_id=request.user
-    tutor = Tutor.objects.get(user=user_id)
-    session = Session(tutor = tutor, session_time = timeSlot, status = 1)
-    session.save()
+
+    # timeSlot = request.GET.get("time")
+    # user_id=request.user
+    # tutor = Tutor.objects.get(user=user_id)
+    # session = Session(tutor = tutor, session_time = timeSlot, status = 1)
+    # session.save()
+    if request.method=='POST':
+        json_data=json.loads(request.POST['data'])
+        for data in json_data:
+            print(data)
+        messages.success(request, 'Your timeslot has been updated.')
+        return  JsonResponse({'message': 'Timeslot Edit Saved'})
     
 def change_password(request):
     if request.method == 'POST':

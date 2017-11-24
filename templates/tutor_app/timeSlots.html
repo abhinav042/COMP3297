@@ -42,7 +42,40 @@ $(document).ready(function(){
     $("#submit").click(function(){
        //send blocking request by passing JSON object with an array of blocked time slots
        
-       
+       var data = [];
+			  $('input:checkbox').map(function () {
+  				var status;
+  
+  				if($(this).is(":checked")==true){
+  					status = 0;
+  				}else{
+  					status = 1;
+  				}
+  				var one_session = {
+  						timeslot: $(this).attr('id'),
+  						status: status
+  				}
+  
+  				data.push(one_session);
+  				// var temp = $.extend(data, one_session);
+  				// data = temp;
+		  	});
+
+					$.ajax({
+							url: '{% url "tutor_app:blockSession" %}',
+							type: 'POST',
+							dataType: 'json',
+
+							success: function (data) {
+								if(data.message){
+									alert(data.message);
+								}
+							},
+							data: {
+								data: JSON.stringify(data),
+								csrfmiddlewaretoken: '{{csrf_token}}'
+							}
+					});
     });
     
     $("#id_username").click(function () {

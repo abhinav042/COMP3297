@@ -1,15 +1,6 @@
-{% extends "student_app/base.html" %}
+{% extends "myTutor_app/base.html" %}
 {% block body_block %}
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-<script>
-  
-</script>
-<style>
-  .custom_css {
-    color: red;
-  }
-</style>
-
 <script type="text/javascript">
      console.log('hi');
       $(document).ready(function() {
@@ -30,11 +21,15 @@
                     data: add_val, // do I need to pass data if im GET ting?
                     dataType: 'json',
                     success : function(new_data){
-                      alert('successfully added wallet')
+                        if(new_data.error=="error")
+                      alert('not enough funds')
+                      else
+                      alert('successfully retrieved funds')
                       location.reload()
                     },
                     error : function() {
                     		alert('error adding value');
+                    		location.reload();
                     }
                 });//end ajax   
               });//end click
@@ -42,40 +37,17 @@
 </script>
 
 <div class="container">
-  <div class="jumbotron">
-    {% if user.is_authenticated %}
-        <h2>Welcome {{ user.username }}!</h2>
-        <h3>Your Upcoming Sessions:</h3><br>
-        <div>
-            {% for session in sessions %}
-            <p>
-              {{session.course}} - {{session.tutor}} - {{session.session_time}}
-              <a href="{% url 'session_app:cancel_session' %}?sess={{session.id}}" style="font-size:12px;">Cancel Session</a>
-            </p>
-            <hr style="border-color:#000000">
-            {% empty %}
-            <p>
-              You have not enrolled in any tutorial session
-            </p>
-            {% endfor %}
-            <br>
-            <br>
-            {% if user.student.wallet < 100 %}
-            <p class="custom_css">
-              <strong>You are about to run out of funds! Consider adding funds by clicking the button below!</strong>
-            </p>
-            {% endif %}
-            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalHorizontal">
-                  Add Funds to Wallet
+<div class ="jumbotron">
+     <p>You have ${{mytutor.wallet}} in your wallet!</p>
+     
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalHorizontal">
+                  Retrieve Funds From Wallet
             </button>
-        </div>
-    {% else %}
-      <h1>Welcome to Student Portal</h1>
-      <h2>Please login/register to start using Tutoria</h2>
-    {% endif %}
-  </div>
-  <!-- Modal -->
-  <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
+     
+     
+     
+     
+     <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
        aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -87,7 +59,7 @@
                          <span class="sr-only">Close</span>
                   </button>
                   <h4 class="modal-title" id="myModalLabel">
-                      Add Funds
+                      Retrieve Funds
                   </h4>
               </div>
               
@@ -118,7 +90,7 @@
                               Close
                   </button>
                   <button id="send_val" type="button" class="btn btn-primary">
-                      Add Value
+                      Retrieve Value
                   </button>
               </div>
           </div>
@@ -132,5 +104,8 @@
     width: 100%
   }
 </style>
+    
+</div>
 
+</div>
 {% endblock %}

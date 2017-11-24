@@ -15,50 +15,39 @@
       background-color: #f97925;
     }
   </style>
-  <body><br>
+  <body>
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <ul class="nav navbar-nav">
           {# Django Home Link / Admin Link / Register Link#}
           {% if user.is_authenticated %}
-          <li><a class="navbar-brand" href="{% url 'student_app:index' %}">Tutoria</a></li>
+          <li><a class="navbar-brand" href="{% url 'myTutor_app:index' %}">Tutoria</a></li>
           {% else %}
           <li><a class="navbar-brand" href="{% url 'index' %}">Tutoria</a></li>
-          {% endif %}
-          {# Some logic on what to display for last item#}
-          {% if user.is_authenticated %}
-            <li><a href="{% url 'student_app:view_tutors' %}">Book a session</a></li>
           {% endif %}
         </ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a class="navbar-link" href="{% url 'student_app:switch' %}">Switch to Tutor</a></li>
-					{% if user.is_anonymous %}
-          <li><a class="navbar-link" href="{% url 'student_app:register' %}">Register</a></li>
-          {% endif %}
 					{% if user.is_authenticated %}
-					
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}} <span class="caret"></a>
 						<ul class="dropdown-menu">
-						  <li><a  class="dropdown-item">Wallet: ${{user.student.wallet}}</a></li>
-							<li><a class="dropdown-item"  href="{% url 'student_app:edit_profile' %}">Edit Profile</a></li>
+						  <li><a  class="dropdown-item">Wallet: ${{mytutor.wallet}}</a></li>
 							{% if user.is_superuser %}
 								<li role="separator" class="divider"></li>
 								<li  class="nav-item"><a class="navbar-link" href="{% url 'admin:index' %}">Admin Panel</a></li>
 							{% endif %}
 							<li role="separator" class="divider"></li>
-							<li><a class="dropdown-item"  href="{% url 'student_app:logout' %}">Logout</a></li>
+							<li><a class="dropdown-item"  href="{% url 'index' %}">Logout</a></li>
 						</ul>
 					</li>
 					{% else %}
-						<li  class="nav-item"><a class="navbar-link" href="{% url 'student_app:user_login' %}">Login</a></li>
+						
 					{% endif %}
 				</ul>
       </div>
     </nav>
     <div class="container">
-      
     {% block body_block %}
     {% endblock %}
     </div>

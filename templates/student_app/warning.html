@@ -1,0 +1,27 @@
+{% extends "student_app/base.html" %}
+
+{% block body_block %}
+<style>
+    .warning{
+    border: red 3px solid;
+    width:80%;
+    margin: 0 auto;
+    height: 250px;
+    background-color: #f9c6c6;
+}
+</style>
+    {% if messages %}
+        {% for message in messages %}
+            <div{% if message.tags %} class="flex flex-column flex-center {{ message.tags }}"{% endif %}>
+                <h2 style="color: red">{{ message }}</h2>
+                <div>You will be redirected within 5 seconds, <a href="javascript:history.back()"> Click here</a> if it doesn't.</div>
+            </div>
+        {% endfor %}
+        <script type="text/javascript">
+            setTimeout(function() {
+                history.back() // Do something after 5 seconds
+            }, 5000);
+        </script>
+    {% endif %}
+
+{% endblock %}

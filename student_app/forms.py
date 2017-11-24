@@ -21,7 +21,7 @@ class EditProfileForm(forms.ModelForm):
     class Meta():
         model = Student
         fields = (
-            'profile_pic',
+            'profile_pic', 'phone'
         )
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)

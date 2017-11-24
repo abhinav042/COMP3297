@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^student_app/',include('student_app.urls')),
+    url(r'^myTutor_app/',include('myTutor_app.urls')),
     url(r'^tutor_app/',include('tutor_app.urls')),
     url(r'^session_app/',include('session_app.urls')),
     url(r'^reset-password/$',password_reset,name='password_reset'),

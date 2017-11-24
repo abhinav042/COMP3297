@@ -44,3 +44,7 @@ span.stars span {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+tr,td{
+    background-color: white;
+}

@@ -19,7 +19,7 @@ def job():
     session.status = 3
     session.tutor.wallet += session.tutor.salary
     session.save()
-    # with open('transaction_log.txt', 'w') as f:
+    w
     #     f.write('This session ')
     # subject = "Payment Recieved"
     # from_email = "tutoria@admin.com"

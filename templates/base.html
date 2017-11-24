@@ -30,6 +30,7 @@ html, body {
 }
 
 body {
+  background-color: #f97925;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -177,7 +178,7 @@ hr.small {
   display: table;
   width: 100%;
   height: 100%;
-  background: url(../static/bg.jpg) no-repeat center center scroll;
+  background: url(../static/117465.jpg) no-repeat center center scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -296,7 +297,10 @@ footer {
         <br>
         <a href="{% url 'student_app:index' %}" class="btn btn-dark btn-lg">Student</a>
         <a href="{% url 'tutor_app:index' %}" class="btn btn-dark btn-lg">Tutor</a>
+        <hr>
+        <a href="{% url 'myTutor_app:user_login' %}">MyTutor Portal</a>
       </div>
+      
     </header>
     </body>
     </html>

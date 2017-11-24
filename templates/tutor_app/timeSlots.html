@@ -3,28 +3,30 @@
 <link rel="stylesheet" href="/static/css/checkbox.css"/>
 <h2>Time Slot</h2>
 <h4>Mark your available time slot for Tutorial session</h4>
-<table class="table">
-	<thead class="thead">
-		<tr>
-			<th></th>
-		{% for date in date_array %}
-			<th scope="col">{{date}}</th>
-		{% endfor %}
-		</tr>
-	</thead>
-	<tbody>
-			{% for time in timeSlot %}
-					{% if forloop.counter0|divisibleby:15 %}
-						<tr><th scope="row">{{time}}</th>
-					{% else %}
-						<td>
-							<input type="checkbox" id="{{time}}"/>
-						</td>
-					{% endif %}
-				{% cycle '' '' '' '' '' '' '' '' '' '' '' '' '' '' '</tr>'%}
+<div class="jumbotron" style="padding: 30px">
+	<table class="table">
+		<thead class="thead">
+			<tr>
+				<th></th>
+			{% for date in date_array %}
+				<th scope="col">{{date}}</th>
 			{% endfor %}
-	</tbody>
-</table>
+			</tr>
+		</thead>
+		<tbody>
+				{% for time in timeSlot %}
+						{% if forloop.counter0|divisibleby:15 %}
+							<tr><th scope="row">{{time}}</th>
+						{% else %}
+							<td>
+								<input type="checkbox" id="{{time}}" checked/>
+							</td>
+						{% endif %}
+					{% cycle '' '' '' '' '' '' '' '' '' '' '' '' '' '' '</tr>'%}
+				{% endfor %}
+		</tbody>
+	</table>
+</div>
 <button id="submit">Submit</button>
 <!-- {% for time in timeSlot %}
     <p><a href="{% url 'tutor_app:blockSession'%}?time={{time}}">{{time}}</a></p>
@@ -34,51 +36,54 @@
 <script>
 
 $(document).ready(function(){
-		{% for session in exist_session %}
-			$(document.getElementById('{{session}}')).prop('checked',true);
-		{% endfor %}
+	{% for session in block_slot %}
+		$(document.getElementById('{{session}}')).prop('checked',false);
+	{% endfor %}
     {%for time in lock_slot %}
-			$(document.getElementById('{{time}}')).prop('disabled',true);
-		{% endfor %}
+		$(document.getElementById('{{time}}')).prop('disabled',true);
+	{% endfor %}
+	{%for time in book_slot %}
+		$(document.getElementById('{{time}}')).parent().html("Booked");
+	{% endfor %}
 
 
-		$("button#submit").on('click',function(){
-			console.log("Hello");
-			var data = [];
-			$('input:checkbox').map(function () {
-				var status;
+	$("button#submit").on('click',function(){
+		console.log("Hello");
+		var data = [];
+		$('input:checkbox').map(function () {
+			var status;
 
-				if($(this).is(":checked")==true){
-					status = 0;
-				}else{
-					status = 1;
-				}
-				var one_session = {
-						timeslot: $(this).attr('id'),
-						status: status
-				}
+			if($(this).is(":checked")==true){
+				status = 0;
+			}else{
+				status = 1;
+			}
+			var one_session = {
+					timeslot: $(this).attr('id'),
+					status: status
+			}
 
-				data.push(one_session);
-				// var temp = $.extend(data, one_session);
-				// data = temp;
-			});
-
-					$.ajax({
-							url: '{% url "tutor_app:blockSession" %}',
-							type: 'POST',
-							dataType: 'json',
-
-							success: function (data) {
-								if(data.message){
-									alert(data.message);
-								}
-							},
-							data: {
-								data: JSON.stringify(data),
-								csrfmiddlewaretoken: '{{csrf_token}}'
-							}
-					});
+			data.push(one_session);
+			// var temp = $.extend(data, one_session);
+			// data = temp;
 		});
+
+				$.ajax({
+						url: '{% url "tutor_app:blockSession" %}',
+						type: 'POST',
+						dataType: 'json',
+
+						success: function (data) {
+							if(data.message){
+								alert(data.message);
+							}
+						},
+						data: {
+							data: JSON.stringify(data),
+							csrfmiddlewaretoken: '{{csrf_token}}'
+						}
+				});
+	});
     $("#id_username").click(function () {
         console.log("click");
       var username = $(this).val();

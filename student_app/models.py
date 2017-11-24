@@ -7,6 +7,7 @@ class Student(models.Model):
     user = models.OneToOneField(User,null=True)
 
     wallet = models.FloatField(default=0)
+    phone = models.CharField(max_length=30,null=True)
     profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
 
     def __str__(self):

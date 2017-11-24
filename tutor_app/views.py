@@ -122,8 +122,9 @@ def timeSlots(request):
     preset_time = []
     time_slot = []
     date_array = []
-    exist_session = []
+    block_slot = []
     lock_slot = []
+    book_slot = []
     time_range = 18
     elem_time = datetime.time(9, 00)
     time_delta = datetime.timedelta(minutes = 30)
@@ -152,17 +153,19 @@ def timeSlots(request):
             time_to_append = datetime.datetime.combine(curr_date, preset_time[i]).isoformat()
             if Session.objects.filter(session_time = time_to_append).filter(tutor = tutor).exists():
                 session = Session.objects.filter(session_time = time_to_append).filter(tutor = tutor).get()
-                exist_session.append(time_to_append)
                 print("session found")
-                if session.status == '2':
-                    lock_slot.append(time_to_append)
+                if session.status == 2:
+                    print("and it is blocked")
+                    block_slot.append(time_to_append)
+                elif session.status == 1:
+                    book_slot.append(time_to_append)
             if datetime.datetime.combine(curr_date, preset_time[i]) <= lock_time:
                 lock_slot.append(time_to_append)
             time_slot.append(time_to_append)
             temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
             curr_date = (temp_date + date_delta).date()
 
-    return render(request,'tutor_app/timeSlots.html',{'timeSlot':time_slot, 'date_array':date_array, 'exist_session':exist_session, 'lock_slot':lock_slot})
+    return render(request,'tutor_app/timeSlots.html',{'timeSlot':time_slot, 'date_array':date_array, 'block_slot':block_slot, 'lock_slot':lock_slot, 'book_slot':book_slot})
 
 def blockSession(request):
 
@@ -174,13 +177,13 @@ def blockSession(request):
             if Session.objects.filter(session_time = data['timeslot']).filter(tutor = tutor).exists():
                 print(data['timeslot']+ " Session Exist")
                 session = Session.objects.filter(session_time = data['timeslot']).filter(tutor = tutor).get()
-                if data['status'] != 0:
-                    print("Session deleted")
+                if data['status'] == 0:
+                    print("Block session deleted")
                     session.delete()
             else:
-                if data['status'] == 0:
-                    print(data['timeslot']+ " Session Created")
-                    session = Session(tutor = tutor, session_time = data['timeslot'], status = 0)
+                if data['status'] == 1:
+                    print(data['timeslot']+ " Block session Created")
+                    session = Session(tutor = tutor, session_time = data['timeslot'], status = 2)
                     session.save()
 
         messages.success(request, 'Your timeslot has been updated.')
@@ -221,6 +224,16 @@ def tutor_list(request):
 def tutor_detail(request, tutor_id):
     tutor = get_object_or_404(Tutor, pk=tutor_id)
     return render(request, 'tutor_app/tutor_detail.html', {'tutor':tutor})
+    
+def deactivate(request):
+    tutor = Tutor.objects.get(user=request.user)
+    print("changing active status")
+    if tutor.active == True:
+        tutor.active = False
+    else:
+        tutor.active = True
+    tutor.save()
+    return redirect('tutor_app:index')
 
 def add_review(request, tutor_id):
     tutor = get_object_or_404(Tutor, pk=tutor_id)

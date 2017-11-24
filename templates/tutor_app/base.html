@@ -10,7 +10,12 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-  <body>
+<style type="text/css">
+	body {
+		background-color: #f97925;
+	}
+</style>
+  <body><br>
     <nav class="navbar  navbar-default navbar-static-top">
 			<div class="container">
         <ul class="nav navbar-nav">
@@ -41,6 +46,13 @@
 							{% if user.is_superuser %}
 								<li role="separator" class="divider"></li>
 								<li  class="nav-item"><a class="navbar-link" href="{% url 'admin:index' %}">Admin Panel</a></li>
+							{% endif %}
+							{% if user.tutor.active %}
+							    <li role="separator" class="divider"></li>
+							    <li><a class="dropdown-item" style="color:red;"  href="{% url 'tutor_app:deactivate' %}">Deactivate</a></li>
+							{% else %}
+							    <li role="separator" class="divider"></li>
+							    <li><a class="dropdown-item" style="color:green;"  href="{% url 'tutor_app:deactivate' %}">Activate</a></li>
 							{% endif %}
 							<li role="separator" class="divider"></li>
 							<li><a class="dropdown-item"  href="{% url 'tutor_app:logout' %}">Logout</a></li>

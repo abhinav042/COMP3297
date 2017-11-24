@@ -12,22 +12,42 @@
     <div class="jumbotron">
         
 			<div class="div_table">
-				<div class="div_thead">
-					<div class="col-0 row-0"></div>
-					{% for date in date_array %}
-						<div class="{{date}} row-0">{{date}}</div>
+				<div class="div_thead flex">
+					<div class="div_box col-0 row-0"></div>
+					{% for date in date_list %}
+						<div class="div_box flex flex-center {{date}} row-0">{{date}}</div>
 					{% endfor %}
 				</div>
 				<div class="div_tbody">
 					
 					{% for time in time_array %}
-						<div class="col-0 row-{{forloop.counter}}">{{time}}</div>
-						{% for date in date_array %}
-							<div class="div_box col-{{forloop.counter}} row-{{forloop.parentloop.counter}}"><a href="/student_app/book_session?sess={{date}}T{{time}}">Book</a></div>
-						{% endfor %}
+						<div class="div_trow flex">
+							<div class="div_box flex flex-start col-0 row-{{forloop.counter}}">{{time}}</div>
+							{% for date in date_array %}
+								<div class="div_box flex flex-center {{date}} col-{{forloop.counter}} row-{{forloop.parentloop.counter}}"><input class="btn btn-primary" type="button" id="{{date}}T{{time}}" value="Book" onclick="location.href='/session_app/book_session?sess={{date}}T{{time}}&tutor={{tutor_id}}'"/></div>
+							{% endfor %}
+						</div>
 					{% endfor %}
 				</div>
 			</div>
     </div>
   </div>
+  <script type="text/javascript">
+  	{% for locked in lock_slot %}
+  		$(document.getElementById('{{locked}}')).prop({'value':'Locked', 'disabled':'true'}).removeClass('btn-primary').addClass('btn-warning');
+  	{% endfor %}
+  	{% for booked in booked_session_list %}
+  		$(document.getElementById('{{booked}}')).prop({'value':'Booked', 'disabled':'true'}).removeClass('btn-primary').addClass('btn-light');
+  	{% endfor %}
+  	{% for day in booked_day %}
+  		$(".{{day}}").children().prop({'value':'Unavailable', 'disabled':'true'}).removeClass('btn-primary').addClass('btn-light');
+  	{% endfor %}
+  	{% for session in self_booked %}
+  		$(document.getElementById('{{session}}')).prop({'value':'Yours', 'disabled':'true'}).addClass('btn-success').removeClass('btn-light');
+  	{% endfor %}
+  	{% for blocked in blocked_session_list %}
+  		$(document.getElementById('{{blocked}}')).css('display','none');
+  	{% endfor %}
+  	
+  </script>
 {% endblock %}

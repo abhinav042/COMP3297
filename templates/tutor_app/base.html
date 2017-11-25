@@ -43,6 +43,7 @@
 						    
 						    <li><a  class="dropdown-item">Wallet: ${{user.tutor.wallet}}</a></li>
 							<li><a class="dropdown-item"  href="{% url 'tutor_app:edit_profile' %}">Edit Profile</a></li>
+							<li><a class="dropdown-item"  href="{% url 'tutor_app:transactions' %}">Transaction History</a></li>
 							{% if user.is_superuser %}
 								<li role="separator" class="divider"></li>
 								<li  class="nav-item"><a class="navbar-link" href="{% url 'admin:index' %}">Admin Panel</a></li>

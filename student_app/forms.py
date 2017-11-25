@@ -15,7 +15,7 @@ class UserForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta():
         model = Student
-        fields = ('profile_pic',)
+        fields = ('profile_pic', 'phone')
         
 class EditProfileForm(forms.ModelForm):
     class Meta():

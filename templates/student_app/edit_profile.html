@@ -2,10 +2,12 @@
 
 {% block body_block %}
 <div class="container  jumbotron">
-    <form method="post">
+    <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         {{ form2.as_p }}
-        <img id="preview" src="../../media/{{user.student.profile_pic}}" alt="your profile pic" style="max-width: 400px;"/>
+        <div style="display: flex; align-items: center; justify-content: center; width: 400px; border: 2px dashed lightgray">
+            <img id="preview" src="{{user.student.profile_pic.url}}" alt="No profile picture yet" style="max-width: 400px;"/>
+        </div>
         {{ form.as_p }}
         <a href="{%url 'student_app:change_password' %}"  class = "btn">Change Password</a>
         <button type="submit">Submit</button>

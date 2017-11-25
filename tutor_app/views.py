@@ -14,9 +14,28 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from session_app.models import Session
 from django.shortcuts import get_object_or_404
+from tutor_app.models import Transaction_T
 
 # Create your views here.
 def index(request):
+    
+    user_id=request.user
+    # student_id=Student.objects.get(user=user_id)p
+    # session=Session.objects.filter(student=student_id)
+    # print(session)
+    try:
+        tutor_id=Tutor.objects.get(user=user_id)
+        print(tutor_id)
+    except:
+        tutor_id= None
+    if tutor_id != None:    
+        try:
+            session = Session.objects.filter(tutor=tutor_id,status=1)
+            print (session)
+            return render(request,'tutor_app/index.html',{'sessions':session})
+        except Session.DoesNotExist:
+            session = None
+            print(session)
     return render(request,'tutor_app/index.html')
 
 def switch(request):
@@ -75,15 +94,15 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user =authenticate(username=username,password=password)
+        user_id =authenticate(username=username,password=password)
         try:
-            tutor = Tutor.objects.get(user=user)
+            tutor = Tutor.objects.get(user=user_id)
         except:
             tutor=None
-        if user:
+        if user_id:
             if tutor != None:
-                login(request,user)
-                return render(request,'tutor_app/index.html')
+                login(request,user_id)
+                return redirect('/tutor_app/index')
 
             else:
                 return HttpResponse('Not Registered as a Tutor')
@@ -98,18 +117,28 @@ def user_login(request):
 def edit_profile(request):
     args = {}
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user.tutor)
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user.tutor)
         form2 = EditUserForm(request.POST, instance=request.user)
+        #form3 = EditTagForm(request.POST, instance=request.user.tutor)
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
+            #form3.save()
             return redirect('/tutor_app/index')
+        else:
+            messages.warning(request, "Invalid Form")
+            print("not valid form")
+            return render(request, 'student_app/warning.html')
     
     else:
         form = EditProfileForm(instance=request.user.tutor)
         form2 = EditUserForm(instance=request.user)
+        tutor = Tutor.objects.get(user = request.user)
+        #tags = get_object_or_404(tutor, pk=1)
+        #form3 = EditTagForm(instance=request.user.tutor)
         args['form'] = form
         args['form2'] = form2
+        #args['form3'] = form3
         return render(request, 'tutor_app/edit_profile.html', args)
         
 def datetime_range(start, end, delta):
@@ -130,6 +159,9 @@ def timeSlots(request):
     time_delta = datetime.timedelta(minutes = 30)
     tutor = Tutor.objects.get(user=request.user)
 
+    if tutor.contracted == False:
+        time_range = 9
+        time_delta = datetime.timedelta(minutes = 60)
     for i in range(time_range):
         temp_time = datetime.datetime.combine(datetime.date(1, 1, 1), elem_time)
         preset_time.append(elem_time)
@@ -138,10 +170,8 @@ def timeSlots(request):
     curr_date = datetime.datetime.now().date()
 
     date_delta = datetime.timedelta(days = 1)
-    lock_time = datetime.datetime.now() + date_delta + time_delta*16
-    if tutor.contracted == False:
-        time_range = 9
-        time_delta = datetime.timedelta(minutes = 60)
+    lock_time = datetime.datetime.now() + date_delta + datetime.timedelta(hours = 8)
+
     for i in range(14):
         temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
         date_array.append(curr_date.strftime("%d/%m/%y (%a)"))
@@ -221,6 +251,8 @@ def tutor_list(request):
     context = {'tutor_list':tutor_list}
     return render(request, 'tutor_app/tutor_list.html',{'tutor_list':tutor_list})
     
+
+    
 def tutor_detail(request, tutor_id):
     tutor = get_object_or_404(Tutor, pk=tutor_id)
     return render(request, 'tutor_app/tutor_detail.html', {'tutor':tutor})
@@ -255,4 +287,8 @@ def add_review(request, tutor_id):
         return HttpResponseRedirect(reverse('tutor_app:tutor_detail', args=(tutor.id,)))
 
     return render(request, 'tutor_app/add_review.html', {'tutor': tutor, 'form': form})
+    
+def transactions(request):
+    transaction = Transaction_T.objects.all()
+    return render(request,"tutor_app/transactions.html",{'transactions':transaction})
 

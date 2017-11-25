@@ -33,6 +33,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}} <span class="caret"></a>
 						<ul class="dropdown-menu">
 						  <li><a  class="dropdown-item">Wallet: ${{mytutor.wallet}}</a></li>
+						  <li><a  class="dropdown-item" href="{% url 'myTutor_app:transactions' %}">Transactions</a></li>
 							{% if user.is_superuser %}
 								<li role="separator" class="divider"></li>
 								<li  class="nav-item"><a class="navbar-link" href="{% url 'admin:index' %}">Admin Panel</a></li>

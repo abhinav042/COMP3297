@@ -10,35 +10,38 @@ from django.shortcuts import redirect
 from tutor_app.models import Tutor
 from datetime import datetime,timedelta
 from django.core.mail import send_mail
+from myTutor_app.models import myTutor
+
 
 def job():
     print ("I AM RUNNING EVERY 30 MINUTES")
+    user_id = User.objects.get(username = 'MyTutor')
+    mytutor = myTutor.objects.get(user=user_id)
     a = datetime.now()
     b = a - timedelta(minutes=30)
-    session = Session.objects.get(id=50)
-    session.status = 3
-    session.tutor.wallet += session.tutor.salary
-    session.save()
-    # with open('transaction_log.txt', 'w') as f:
-    #     f.write('This session ')
-    # subject = "Payment Recieved"
-    # from_email = "tutoria@admin.com"
-    # to_email = "lundbc"
-    # message =  "An amount of " + session.tutor.salary + " has been deposited to your wallet. Your Current balance is "+ session.tutor.wallet
-    # send_mail(subject,message, from_email, to_email, fail_silently = False)
-
-# class MyCronJob(CronJobBase):
-#     RUN_EVERY_MINS = 1 # every 30 mins
-    
-#     schedule = Schedule(run_every_mins = RUN_EVERY_MINS)
-#     code = 'session_app.my_cron_job'
-    
-#     def do(self):
-#         # add the code which repeats here
-#         print ("RUN\n")
-
-# def my_scheduled_job():
-#     print("RUN")
+    sessions = Session.objects.filter(session_time = b)
+    for session in sessions:
+        session.status = 3
+        tutor_id = session.tutor
+        student_id = session.student
+        tutor_id.wallet += tutor_id.salary
+        session.save()
+        tutor_id.save()
+        mytutor.wallet += session.tutor.salary * 0.05
+        mytutor.save()
+        subject = "Successfully Completed Payment"
+        from_email = "tutoria@admin.com"
+        tutor_email = tutor_id.user.email
+        to_email = [tutor_email]
+        message =  "An amount of " + str(tutor_id.salary) + " has been added to your wallet. Your Current balance is "+ str(tutor_id.wallet)
+        send_mail(subject,message, from_email, to_email, fail_silently = False)
+        
+        subject_s = "Review your tutor"
+        from_email_s = "tutoria@admin.com"
+        student_email = student_id.user.email
+        to_email_s = [student_email]
+        message_s =  "Review the tutor here ->   http://127.0.0.1:8000/tutor_app/tutor/" + str(tutor_id.id)+"/add_review"
+        send_mail(subject_s,message_s, from_email_s, to_email_s, fail_silently = False)
 
 schedule.every(10).seconds.do(job)
 

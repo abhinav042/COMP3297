@@ -11,3 +11,9 @@ class myTutor(models.Model):
     
     def __str__(self):
         return self.user.username
+        
+class Transaction_M(models.Model):
+    mytutor = models.ForeignKey(myTutor, on_delete=models.CASCADE)
+    amount = models.FloatField(null = True)
+    pub_date = models.DateTimeField()
+    desc = models.CharField(max_length=30,null=True)

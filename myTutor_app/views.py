@@ -7,10 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from myTutor_app.models import myTutor
+from myTutor_app.models import myTutor,Transaction_M
 from myTutor_app.forms import UserForm
 import json
 from django.http import JsonResponse
+
 
 # Create your views here.
 def user_login(request):
@@ -56,6 +57,10 @@ def update_wallet(request):
             mytutor.wallet -= float(data)
             mytutor.save()
             return JsonResponse(rand_json)
+            
+def transactions(request):
+    transaction = Transaction_M.objects.all()
+    return render(request,"myTutor_app/transactions.html",{'transactions':transaction})
 
     
         

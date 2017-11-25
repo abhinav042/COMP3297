@@ -1,0 +1,65 @@
+{% extends 'tutor_app/base.html' %}
+{% block body_block %}
+<style>
+#transactions {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#transactions td, #transactions th {
+    border: 2px solid #000;
+    padding: 8px;
+}
+
+#transactions tr:nth-child(even){background-color: #f97925;}
+
+#transactions tr:hover {background-color: #ddd;}
+
+#transactions th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #f97925;
+    color: white;
+}
+</style>
+<div class="jumbotron">
+    <h2> Transaction History </h2>
+        <table id="transactions">
+            <thead>
+                <tr>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Date of Transaction
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>
+                        {{ transaction.amount }}
+                    </td>
+                    <td>
+                        {{ transaction.pub_date }}
+                    </td>
+                    <td>
+                        {{ transaction.desc }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+
+
+
+
+{% endblock %}

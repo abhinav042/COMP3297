@@ -22,6 +22,7 @@ from tutor_app.models import Timeslot
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from student_app.models import Transaction_S
 
 # Create your views here.
 def index(request):
@@ -127,9 +128,11 @@ def session_list(request,tutor_id):
     student=Student.objects.get(user=request.user)
     blocked_session = Session.objects.values_list('session_time','student_id').filter(tutor = tutor).filter(status = 2).all()
     booked_session = Session.objects.values_list('session_time','student_id').filter(tutor = tutor).filter(status = 1).all()
+    self_session = Session.objects.values_list('session_time','student_id').exclude(tutor = tutor).filter(status = 1).all()
     booked_list = []
     blocked_list = []
     self_booked = []
+    other_self_booked=[]
     booked_day = []
     for session in blocked_session:
         blocked_list.append(session[0].strftime("%Y-%m-%dT%H:%M:%S"))
@@ -139,6 +142,9 @@ def session_list(request,tutor_id):
         if (student.id == session[1]):
             self_booked.append(session[0].strftime("%Y-%m-%dT%H:%M:%S"))
             booked_day.append(session[0].strftime("%Y-%m-%d"))
+    for session in self_session:
+        if (student.id == session[1]):
+            other_self_booked.append(session[0].strftime("%Y-%m-%dT%H:%M:%S"))
     preset_time = []
     time_slot = []
     time_array = []
@@ -179,21 +185,16 @@ def session_list(request,tutor_id):
             temp_date = datetime.datetime.combine(curr_date, datetime.time(1,1))
             curr_date = (temp_date + date_delta).date()
 
-    return render(request, 'student_app/session_list.html', {'tutor_id':tutor_id,'self_booked':self_booked,'time_array':time_array,'date_list':date_list,'date_array':date_array, 'blocked_session_list': blocked_list,'booked_day':booked_day, 'booked_session_list': booked_list, 'lock_slot': lock_slot})
+    return render(request, 'student_app/session_list.html', {'tutor_id':tutor_id,'self_booked':self_booked,'other_self_booked':other_self_booked,'time_array':time_array,'date_list':date_list,'date_array':date_array, 'blocked_session_list': blocked_list,'booked_day':booked_day, 'booked_session_list': booked_list, 'lock_slot': lock_slot})
   
 @login_required      
 def edit_profile(request):
     args = {}
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user.student)
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user.student)
         form2 = EditUserForm(request.POST, instance=request.user)
         if form.is_valid() and form2.is_valid():
-            form_extend = form.save(commit=False)
-
-            if 'profile_pic' in request.FILES:
-                form_extend.profile_pic = request.FILES['profile_pic']
-
-            form_extend.save()
+            form.save()
             form2.save()
             return redirect('/student_app/index')
     
@@ -209,16 +210,22 @@ def view_tutors(request):
     tutor_filter = TutorFilter(request.GET,queryset=tutor_list)
     return render(request, 'student_app/tutor_list.html', {'filter': tutor_filter})
     
-def validate_username(request):
-    date = request.GET.get('username', None)
-    datetime_object = datetime.datetime.strptime(date, '%b %d %Y %I:%M%p')
-    timeslot = Timeslot(date_of_slot = datetime_object)
-    timeslot.save()
-    data={
-        'haha':True
-    }
-    return JsonResponse(data)
+def sort_price(request):
+    tutor_list = Tutor.objects.order_by('salary')
+    tutor_filter = TutorFilter(request.GET,queryset=tutor_list)
+    return render(request,'student_app/tutor_list.html', {'filter':tutor_filter})
     
+# def sort_rating(request):
+#     tutor_list = Tutor.objects.order_by('average_rating')
+#     tutor_filter = TutorFilter(request.GET,queryset=tutor_list)
+#     return render(request,'student_app/tutor_list.html', {'filter':tutor_filter})
+    
+# def show_available(request):
+#     tutor_list = Tutor.objects.all()
+#     for tutor in tutor_list:
+#         session = Session.objects.filter(tutor = tutor).count()
+#         if session < 
+
     
 def change_password(request):
     if request.method == 'POST':
@@ -243,10 +250,13 @@ def update_wallet(request):
         print('hello')
         print(data)
         rand_json = { }
-        student = Student.objects.get(user = user_id)
+        student_id = Student.objects.get(user = user_id)
         print(type(data))
-        student.wallet += float(data)
-        student.save()
+        student_id.wallet += float(data)
+        student_id.save()
+        transaction = Transaction_S(student = student_id, amount = float(data), pub_date = datetime.datetime.now(), desc="Add Funds to Wallet")
+        transaction.save()
+        
         return JsonResponse(rand_json)
 
 # def datetime_range(start, end, delta):
@@ -263,3 +273,7 @@ def update_wallet(request):
 
 def warning(request):
     return render(request, 'student_app/warning.html')
+    
+def transactions(request):
+    transaction = Transaction_S.objects.all()
+    return render(request, 'student_app/transaction_log.html', {'transactions':transaction})

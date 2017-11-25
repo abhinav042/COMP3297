@@ -10,3 +10,10 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_id
+        
+class Subject(models.Model):
+    subject_code = models.CharField(max_length=10, null = True)
+    subject_name = models.CharField(max_length=50,null = True)
+
+    def __str__(self):
+        return self.subject_name

@@ -3,13 +3,32 @@
 
 <div class="container">
   <div class="jumbotron">
-    <h1>Welcome to the Tutor Portal</h1>
     {% if user.is_authenticated %}
         <h2>Welcome {{ user.username }}!</h2>
+        <h3>Your Upcoming Sessions:</h3><br>
+        <div>
+            {% for session in sessions %}
+            <p>
+              {{session.course}} - {{session.student}} - {{session.session_time}}
+              
+            </p>
+            <hr style="border-color:#000000">
+            {% empty %}
+            <p>
+              No upcoming sessions
+            </p>
+            {% endfor %}
+            <br>
+            <br>
+            
+            <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalHorizontal">-->
+            <!--      Add Funds to Wallet-->
+            <!--</button>-->
+        </div>
     {% else %}
-        <h2>Please login/register to start using Tutoria</h2>
+      <h1>Welcome to Tutor Portal</h1>
+      <h2>Please login/register to start using Tutoria</h2>
     {% endif %}
   </div>
-</div>
 
 {% endblock %}

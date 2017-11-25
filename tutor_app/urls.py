@@ -22,4 +22,5 @@ urlpatterns=[
     url(r'^tutor/(?P<tutor_id>[0-9]+)/$', views.tutor_detail, name='tutor_detail'),
     url(r'^deactivate/$', views.deactivate, name='deactivate'),
     url(r'^tutor/(?P<tutor_id>[0-9]+)/add_review/$', views.add_review, name='add_review'),
+    url(r'^transactions/$',views.transactions,name='transactions')
 ]

@@ -14,13 +14,31 @@ class UserForm(forms.ModelForm):
 class TutorForm(forms.ModelForm):
     class Meta():
         model = Tutor
-        fields = ('first_name','last_name','profile_pic','bio','contracted','salary')
+        fields = ('first_name','last_name','phone','profile_pic','bio','courses','contracted','salary','subject_tag')
+        
+# class EditTagForm(forms.ModelForm):
+#     OPTIONS = (
+#         ("CPPS", "C and C++"),
+#         ("CMVS", "Computer Vision"),
+#         ("MATH", "Mathematic, Statistic and Algebra"),
+#         ("AIML", "AI and Machine Learning"),
+#         ("WWNT", "World-wide WEB and Networking"),
+#         ("APPS", "Application Development and Java"),
+#         ("ARVR", "Augmented and Virtual Reality"),
+#         ("SWEG", "Software Engineering"),
+#         ("STDS", "System and Design"),
+#     )
+#     subject_tag = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
+#     class Meta():
+#         model = Tutor
+#         fields = ('subject_tag',)
         
 class EditProfileForm(forms.ModelForm):
     class Meta():
         model = Tutor
+        
         fields = (
-            'first_name', 'last_name', 'profile_pic', 'bio',
+            'first_name', 'last_name','phone', 'profile_pic', 'bio', 'courses', 'subject_tag'
         )
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -33,7 +51,7 @@ class EditUserForm(UserChangeForm):
         model = User
         fields = (
             'email',
-            'password'
+            'password',
         )
         
 class ReviewForm(ModelForm):

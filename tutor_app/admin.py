@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tutor_app.models import Tutor, Timeslot, Review
+from tutor_app.models import Tutor,Review,Transaction_T
 
 class ReviewAdmin(admin.ModelAdmin):
     model = Review
@@ -11,4 +11,4 @@ class ReviewAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Tutor)
 admin.site.register(Review)
-admin.site.register(Timeslot)
+admin.site.register(Transaction_T)

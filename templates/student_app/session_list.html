@@ -4,7 +4,8 @@
 <style>
 	.div_box{
 		width: 12.5%;
-		height: 12.5%;
+		height: 7.5%;
+		border: #ddd 1px solid;
 	}
 </style>
 
@@ -22,9 +23,9 @@
 					
 					{% for time in time_array %}
 						<div class="div_trow flex">
-							<div class="div_box flex flex-start col-0 row-{{forloop.counter}}">{{time}}</div>
+							<div class="div_box flex flex-center col-0 row-{{forloop.counter}}">{{time}}</div>
 							{% for date in date_array %}
-								<div class="div_box flex flex-center {{date}} col-{{forloop.counter}} row-{{forloop.parentloop.counter}}"><input class="btn btn-primary" type="button" id="{{date}}T{{time}}" value="Book" onclick="location.href='/session_app/book_session?sess={{date}}T{{time}}&tutor={{tutor_id}}'"/></div>
+								<div class="div_box flex flex-center {{date}} col-{{forloop.counter}} row-{{forloop.parentloop.counter}}"><input class="btn btn-primary" type="button" id="{{date}}T{{time}}" value="Book" onclick="confirm_function();location.href='/session_app/book_session?sess={{date}}T{{time}}&tutor={{tutor_id}}'"/></div>
 							{% endfor %}
 						</div>
 					{% endfor %}
@@ -42,12 +43,21 @@
   	{% for day in booked_day %}
   		$(".{{day}}").children().prop({'value':'Unavailable', 'disabled':'true'}).removeClass('btn-primary').addClass('btn-light');
   	{% endfor %}
-  	{% for session in self_booked %}
-  		$(document.getElementById('{{session}}')).prop({'value':'Yours', 'disabled':'true'}).addClass('btn-success').removeClass('btn-light');
-  	{% endfor %}
   	{% for blocked in blocked_session_list %}
   		$(document.getElementById('{{blocked}}')).css('display','none');
   	{% endfor %}
+  	{% for other in other_self_booked %}
+  		$(document.getElementById('{{other}}')).prop({'value':'Timeclash', 'disabled':'true'}).removeClass('btn-primary').addClass('btn-light');
+  	{% endfor %}
+  	{% for session in self_booked %}
+  		$(document.getElementById('{{session}}')).prop({'value':'Yours', 'disabled':'true'}).addClass('btn-success').removeClass('btn-light');
+  	{% endfor %}
   	
   </script>
+  
+	<script type="text/javascript">
+		function confirm_function() {
+			confirm("Click OK to confirm")
+		}
+	</script>
 {% endblock %}

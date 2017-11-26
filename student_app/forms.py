@@ -16,7 +16,7 @@ class StudentForm(forms.ModelForm):
     class Meta():
         model = Student
         fields = ('profile_pic', 'phone')
-        
+
 class EditProfileForm(forms.ModelForm):
     class Meta():
         model = Student
@@ -28,7 +28,7 @@ class EditProfileForm(forms.ModelForm):
         f = self.fields.get('user_permissions', None)
         if f is not None:
             f.queryset = f.queryset.select_related('content_type')
-        
+
 class EditUserForm(UserChangeForm):
     class Meta():
         model = User
@@ -42,6 +42,4 @@ class EditUserForm(UserChangeForm):
 class TutorFilter(django_filters.FilterSet):
     class Meta():
         model = Tutor
-        fields = ['first_name','last_name','subject_tag','university','courses']
-
-        
+        fields = ['first_name','last_name','subject_tag','university','courses','contracted']

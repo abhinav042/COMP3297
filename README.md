@@ -7,15 +7,20 @@ In case you want to run your Django application from the terminal just run:
 
 1) Run syncdb command to sync models to database and create Django's default superuser and auth system
 
-    $ python manage.py migrate
-
+    `$ python manage.py migrate`
+    
 2) Run Django
+    - Run the below command for running from Cloud9 :
+    
+    `$ python manage.py runserver $IP:$PORT`
+    
+    - For running from a local machine : 
+    
+    `$ python manage.py runserver`
+    
+3) Install dependencies by typing the following command in your terminal:
 
-    $ python manage.py runserver $IP:$PORT
-    
-3) Install a bunch of dependencies (TODO : update)
-    
-    $ sudo pip install django-filter
+    `$ pip install -r requirements.txt`
     
 ## Running the scheduler 
 
@@ -24,6 +29,17 @@ In case you want to run your Django application from the terminal just run:
 3) Type `execfile('./tutoria/cron.py')`
 
 Caution : Do schedule.clear() after every interrupt
+
+## Running the email notification server 
+
+
+## Bugs, Future Fixes 
+
+- Search using hourly rate has bugs
+- As we are using a CDN for ajax, bootstrap, etc you must connect to the internet to run the application once before the browser caches the data
+- Can only choose from pre-defined set of subject tags
+- Add functionality to add/search using user-inputted subject tags
+- Handle case to prevent a user register both as student and a tutor to book/cancel sessions with themself
 
 ## Configuration
 

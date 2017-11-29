@@ -1,6 +1,11 @@
 # COMP3297
 Repository for Fall 2017 : COMP3297 Software Engg
-Group 13
+
+### Group members
+- Aman Johar
+- Abhinav Goyal
+- Wallace
+- Luke Chen
 
 ### Starting from the Terminal
 In case you want to run your Django application from the terminal just run:
@@ -45,3 +50,6 @@ Cloud9 > Preferences > Project Settings > Language Support.
 ### Support & Documentation
 
 Django docs can be found at https://www.djangoproject.com/
+
+### I don't like this piece of tech you used 
+As we say, all feedback is good feedback, hit us up over at abhinav.goyal@live.com/amanjohar2011@gmai.com for any ideas, improvements, etc. :)

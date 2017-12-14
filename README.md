@@ -52,4 +52,4 @@ Cloud9 > Preferences > Project Settings > Language Support.
 Django docs can be found at https://www.djangoproject.com/
 
 ### I don't like this piece of tech you used 
-As we say, all feedback is good feedback, hit us up over at abhinav.goyal@live.com/amanjohar2011@gmai.com for any ideas, improvements, etc. :)
+As we say, all feedback is good feedback, hit us up over at [abhinav.goyal@live.com]/[amanjohar2011@gmail.com] for any ideas, improvements, etc. :)
